@@ -6,7 +6,6 @@ const connectionString = process.env.MONGO_CONNECTION_STRING;
 
 const url = `mongodb+srv://${userName}:${password}${connectionString}`;
 
-let databaseIsReady = false;
 //connect using connection string to mongodb
 mongoose.connect(url);
 //create a connection variable to check status
@@ -19,9 +18,9 @@ db.once('open', function () {
   console.log("\n##########################################");
   console.log("Successfully connected to MongoDB database!");
   console.log("##########################################");
-  if (!databaseIsReady) databaseIsReady = true;
+
 });
 
-module.export = databaseIsReady;
+
 
 

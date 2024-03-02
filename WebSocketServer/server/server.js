@@ -1,7 +1,7 @@
 
-const { PORT, getCurrentTimeFormat } = require('../utils/utils');
-const { saveEogData } = require('../eogData/EOGController');
-const { databaseIsReady } = require('../db/mongose');
+const { PORT, getCurrentTimeFormat, checkIfDatabaseIsReady } = require('../utils/utils');
+const { saveEogData } = require('../eog/eogController');
+const { databaseIsReady } = require('../db/mongoose');
 
 var WebSocketServer = require('websocket').server;
 var http = require('http');
@@ -11,9 +11,7 @@ var server = http.createServer(function (request, response) {
   console.log("\n##########################################");
   console.log(getCurrentTimeFormat() + ' Received request for ' + request.url);
   console.log("##########################################\n");
-  if (databaseIsReady) {
-    saveEogData(request.url);
-  }
+
   response.writeHead(404);
   response.end();
 });
@@ -57,6 +55,10 @@ wsServer.on('request', function (request) {
       console.log("###########:DATA RECEIVED utf8:###########");
       console.log('Received Message: ' + message.utf8Data);
       console.log("##########################################\n");
+
+      //this will save data using controller in db
+      saveEogData(message.utf8Data);
+
       //this resend the received message, instead of we can
       // connection.sendUTF(message.utf8Data);
 

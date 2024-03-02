@@ -7,7 +7,7 @@ dotenv.config();
 
 //connection to mongo db
 // require('./mongodb');
-require('../db/mongose');
+require('../db/mongoose');
 //saving local port variable from .env or default
 
 const getCurrentTimeFormat = () => {
@@ -18,5 +18,8 @@ const getCurrentTimeFormat = () => {
     year: 'numeric'
   });
 };
+
+
+
 const PORT = process.env.PORT || 8080;
 module.exports = { PORT, getCurrentTimeFormat };

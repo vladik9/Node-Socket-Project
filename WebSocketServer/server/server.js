@@ -1,5 +1,7 @@
 
-const PORT = require('../utils/utils');
+const { PORT, getCurrentTimeFormat } = require('../utils/utils');
+const { saveEogData } = require('../eogData/EOGController');
+const { databaseIsReady } = require('../db/mongose');
 
 var WebSocketServer = require('websocket').server;
 var http = require('http');
@@ -7,19 +9,19 @@ var http = require('http');
 var server = http.createServer(function (request, response) {
 
   console.log("\n##########################################");
-  console.log((new Date()) + ' Received request for ' + request.url);
-  console.log("##########################################");
-
+  console.log(getCurrentTimeFormat() + ' Received request for ' + request.url);
+  console.log("##########################################\n");
+  if (databaseIsReady) {
+    saveEogData(request.url);
+  }
   response.writeHead(404);
   response.end();
 });
 //starting the server
 server.listen(PORT, function () {
-
   console.log("\n##########################################");
-  console.log((new Date()) + ' Server is listening on port: ' + PORT);
-  console.log("##########################################");
-
+  console.log(getCurrentTimeFormat() + ' server listen on port:' + PORT);
+  console.log("##########################################\n");
 });
 
 wsServer = new WebSocketServer({
@@ -38,44 +40,43 @@ wsServer.on('request', function (request) {
     // Make sure we only accept requests from an allowed origin
     request.reject();
     console.log("\n##########################################");
-    console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
-    console.log("##########################################");
+    console.log(getCurrentTimeFormat() + ' Connection from origin ' + request.origin + ' rejected.');
+    console.log("##########################################\n");
     return;
   }
 
   var connection = request.accept(null, request.origin);
 
   console.log("\n##########################################");
-  console.log((new Date()) + ' Connection accepted.');
-  console.log("##########################################");
-
+  console.log(getCurrentTimeFormat() + ' Connection accepted.');
+  console.log("##########################################\n");
 
   connection.on('message', function (message) {
+    //check if message.type is utf8 or binary, we prefer 1 one
     if (message.type === 'utf8') {
-      console.log("\n##########################################");
+      console.log("###########:DATA RECEIVED utf8:###########");
       console.log('Received Message: ' + message.utf8Data);
-      console.log("##########################################");
+      console.log("##########################################\n");
+      //this resend the received message, instead of we can
+      // connection.sendUTF(message.utf8Data);
 
-      connection.sendUTF(message.utf8Data);
-      //this resend the reseived message, instead of it i will
-      //send a custom message.hello from nodejs
-      console.log("\n##########################################");
-      connection.sendUTF("Hello from node.js");
-      console.log("##########################################");
+      //send a custom message from server to client
+      //this is bidirectional connection message sent and could be disabled
+      // console.log("##############:DATA SEND:#################");
+      // connection.sendUTF("server says hello");
+      // console.log("##########################################\n");
 
     }
     else if (message.type === 'binary') {
-      console.log("\n##########################################");
+      console.log("##########:DATA RECEIVED binary:##########");
       console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
-      console.log("##########################################");
+      console.log("##########################################\n");
 
       connection.sendBytes(message.binaryData);
     }
   });
 
-
-
   connection.on('close', function (reasonCode, description) {
-    console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+    console.log(getCurrentTimeFormat() + ' Peer ' + connection.remoteAddress + ' disconnected.');
   });
 });

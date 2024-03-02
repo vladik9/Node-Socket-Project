@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 
 const userName = process.env.MONGO_USERNAME;
 const password = process.env.MONGO_PASSWORD;
+const connectionString = process.env.MONGO_CONNECTION_STRING;
 
-const url = `mongodb+srv://${userName}:${password}@ctmeproject.lbtx1xs.mongodb.net/?retryWrites=true&w=majority`;
+const url = `mongodb+srv://${userName}:${password}${connectionString}`;
 
-const databaseIsReady = false;
+let databaseIsReady = false;
 //connect using connection string to mongodb
 mongoose.connect(url);
 //create a connection variable to check status
@@ -24,9 +25,3 @@ db.once('open', function () {
 module.export = databaseIsReady;
 
 
-
-//here will be methods to save
-// const CTMEObject = mongoose.model('CTMEObject', { name: String });
-
-// const newObject = new CTMEObject({ name: 'Zildjian' });
-// newObject.save().then(() => console.log('\nSaved!!!\n'));

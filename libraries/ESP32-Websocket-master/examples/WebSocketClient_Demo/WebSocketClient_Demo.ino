@@ -1,22 +1,16 @@
-#include <WiFi.h>
+#include <ESP8266WiFi.h>
 #include <WebSocketClient.h>
 
-//your WIFI ID
-const char* ssid = "We_are_home_now!";
-//your WIFI password
-const char* password = "Forfun96_!";
-
+const char* ssid     = "SSID HERE";
+const char* password = "PASSWORD HERE";
 char path[] = "/";
-//this is IP address of local machine (server sicket), 
-// got it for IPv4 with CMD ipconfig or use logs on server
-char host[] = "192.168.0.213:5000";
-//new instance of client socket  
+char host[] = "echo.websocket.org";
+  
 WebSocketClient webSocketClient;
 
 // Use WiFiClient class to create TCP connections
 WiFiClient client;
 
-//this will init all processes and services
 void setup() {
   Serial.begin(115200);
   delay(10);
@@ -25,7 +19,7 @@ void setup() {
 
   Serial.println();
   Serial.println();
-  Serial.print("Connecting to: ");
+  Serial.print("Connecting to ");
   Serial.println(ssid);
   
   WiFi.begin(ssid, password);
@@ -43,8 +37,8 @@ void setup() {
   delay(5000);
   
 
-  // Connect to the websocket server 
-  if (client.connect("192.168.0.213", 5000)) {
+  // Connect to the websocket server
+  if (client.connect("echo.websocket.org", 80)) {
     Serial.println("Connected");
   } else {
     Serial.println("Connection failed.");
@@ -67,25 +61,22 @@ void setup() {
 
 }
 
-//this will loop all services and will continuously send data to server
+
 void loop() {
   String data;
 
   if (client.connected()) {
-    //here we get back data from server, we can disable this
+    
     webSocketClient.getData(data);
     if (data.length() > 0) {
-    Serial.println("################:DATA RECEIVED:##############");
-    Serial.println(data);
-    Serial.println("##########################################");
+      Serial.print("Received data: ");
+      Serial.println(data);
     }
-   
-   //this is message we can send to server
-    data = "arduino esp32 message";
-    Serial.println("################:DATA SEND:#################");
-    Serial.println(data);
-    Serial.println("##########################################");
-
+    
+    // capture the value of analog 1, send it along
+    pinMode(1, INPUT);
+    data = String(analogRead(1));
+    
     webSocketClient.sendData(data);
     
   } else {

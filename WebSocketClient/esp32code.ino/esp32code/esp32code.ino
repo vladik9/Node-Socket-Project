@@ -1,18 +1,22 @@
 #include <WiFi.h>
 #include <WebSocketClient.h>
 
+//your WIFI ID
 const char* ssid = "We_are_home_now!";
+//your WIFI password
 const char* password = "Forfun96_!";
 
 char path[] = "/";
-//this is IP address of local machine, got it for IPv4 with CMD ipconfig
+//this is IP address of local machine (server sicket), 
+// got it for IPv4 with CMD ipconfig or use logs on server
 char host[] = "192.168.0.213:5000";
-  
+//new instance of client socket  
 WebSocketClient webSocketClient;
 
 // Use WiFiClient class to create TCP connections
 WiFiClient client;
 
+//this will init all processes and services
 void setup() {
   Serial.begin(115200);
   delay(10);
@@ -63,7 +67,7 @@ void setup() {
 
 }
 
-
+//this will loop all services and will continuously send data to server
 void loop() {
   String data;
 

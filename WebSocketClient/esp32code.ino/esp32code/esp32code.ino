@@ -81,6 +81,8 @@ void loop() {
     }
    
    //this is message we can send to server
+   // !!!!!note, we may need to check data and save it debounce, 
+    //as we now saving to many data
     data = "arduino esp32 message";
     Serial.println("################:DATA SEND:#################");
     Serial.println(data);

@@ -1,9 +1,9 @@
-import SignIn from "./SingIn/SingIn";
+import Router from "./Router/Router";
 
 function App() {
   return (
     <div >
-      <SignIn />
+      <Router />
     </div>
   );
 }

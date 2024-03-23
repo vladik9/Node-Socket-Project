@@ -35,3 +35,14 @@ Open: WebSocketServer folder in terminal and run:
 ### `npm start`
 
 check logs and updated on remote client IP for host IP and PORT
+
+###### `.env file`
+
+create a .env file with content in src/
+
+```
+PORT=5000 // or any port you have to share
+MONGO_USERNAME="mongoUserName" // get on mongo user name from connection string
+MONGO_PASSWORD="mongoPassword" // get on mongo password name from connection string
+MONGO_CONNECTION_STRING="@eogcluster.biutuwq.mongodb.net/?retryWrites=true&w=majority" // main connection string, get if from mongo collection connect
+```

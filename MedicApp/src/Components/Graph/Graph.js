@@ -1,13 +1,13 @@
 import { alpha } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
-
+import React, { useState } from 'react';
+import SimplePopup from '../Popup/Popup';
 export default function Hero() {
+  const [patientId, setPatientId] = useState(0);
   return (
     <Box
       id="graph"
@@ -68,14 +68,14 @@ export default function Hero() {
               variant="outlined"
               aria-label="Enter patient Id:"
               placeholder="Patient Id:"
+              value={patientId}
+              onChange={(e) => setPatientId(e.target.value)}
               inputProps={{
                 autocomplete: 'off',
                 ariaLabel: 'Patient Id:',
               }}
             />
-            <Button variant="contained" color="primary">
-              Search
-            </Button>
+            <SimplePopup action={"Search"} patientId={patientId} />
           </Stack>
 
         </Stack>

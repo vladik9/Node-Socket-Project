@@ -105,9 +105,19 @@ function AppAppBar({ mode, toggleColorMode }) {
                     About
                   </Typography>
                 </MenuItem>
+               
               </Box>
             </Box>
-            <Box
+            <Box>
+            <Button
+                color="primary"
+                variant="text"
+                size="small"          
+              >
+                Medic id: 822487284628
+              </Button>
+              </Box>
+              <Box
               sx={{
                 display: { xs: 'none', md: 'flex' },
                 gap: 0.5,
@@ -116,6 +126,17 @@ function AppAppBar({ mode, toggleColorMode }) {
             >
               <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
             </Box>
+              <Box>
+              <Button
+                color="primary"
+                variant="contained"
+                size="small"
+                component="a"
+                href="/"
+              >
+                Log out
+              </Button>
+              </Box>
             <Box sx={{ display: { sm: '', md: 'none' } }}>
               <Button
                 variant="text"

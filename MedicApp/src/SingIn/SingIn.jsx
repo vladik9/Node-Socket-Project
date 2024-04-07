@@ -10,6 +10,7 @@ import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import * as React from 'react';
 
 function Copyright(props) {
@@ -52,7 +53,7 @@ export default function SignIn() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+          <LocalHospitalIcon/>
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
@@ -62,10 +63,12 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="medicId"
+              label="Medic Id"
+              type="number"
+              name="medicId"
+              autoComplete="medicId"
+              defaultValue={"822487284628"}
               autoFocus
             />
             <TextField
@@ -77,18 +80,21 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              defaultValue={"medicPassword"}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
             <Button
-              type="submit"
+               
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              component="a"
+              href="/data"
             >
-              Sign In
+              Log In
             </Button>
           </Box>
         </Box>

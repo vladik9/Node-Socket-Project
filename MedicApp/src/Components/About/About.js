@@ -15,40 +15,27 @@ import * as React from 'react';
 const items = [
   {
     icon: <SettingsSuggestRoundedIcon />,
-    title: 'Adaptable performance',
+    title: 'Titlu',
     description:
-      'Our product effortlessly adjusts to your needs, boosting efficiency and simplifying your tasks.',
+      'Text',
   },
   {
-    icon: <ConstructionRoundedIcon />,
-    title: 'Built to last',
+    icon: <SettingsSuggestRoundedIcon />,
+    title: 'Titlu',
     description:
-      'Experience unmatched durability that goes above and beyond with lasting investment.',
+      'Text',
   },
   {
-    icon: <ThumbUpAltRoundedIcon />,
-    title: 'Great user experience',
+    icon: <SettingsSuggestRoundedIcon />,
+    title: 'Titlu',
     description:
-      'Integrate our product into your routine with an intuitive and easy-to-use interface.',
+      'Text',
   },
-  {
-    icon: <AutoFixHighRoundedIcon />,
-    title: 'Innovative functionality',
-    description:
-      'Stay ahead with features that set new standards, addressing your evolving needs better than the rest.',
-  },
-  {
-    icon: <SupportAgentRoundedIcon />,
-    title: 'Reliable support',
-    description:
-      'Count on our responsive customer support, offering assistance that goes beyond the purchase.',
-  },
-  {
-    icon: <QueryStatsRoundedIcon />,
-    title: 'Precision in every detail',
-    description:
-      'Enjoy a meticulously crafted product where small touches make a significant impact on your overall experience.',
-  },
+ 
+ 
+ 
+ 
+ 
 ];
 
 export default function About() {
@@ -81,9 +68,7 @@ export default function About() {
             About
           </Typography>
           <Typography variant="body1" sx={{ color: 'grey.400' }}>
-            Explore why our product stands out: adaptability, durability,
-            user-friendly design, and innovation. Enjoy reliable customer support and
-            precision in every detail.
+           Message
           </Typography>
         </Box>
         <Grid container spacing={2.5}>

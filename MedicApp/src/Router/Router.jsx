@@ -14,7 +14,7 @@ export default function Router() {
           <Route path="/" element={<SingIn />}>
           </Route>
           <Route>
-            <Route path="/Data" element={<MainPage />} />
+            <Route path="/data" element={<MainPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

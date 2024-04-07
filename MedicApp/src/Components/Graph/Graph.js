@@ -62,15 +62,15 @@ export default function Hero() {
             sx={{ pt: 2, width: { xs: '100%', sm: 'auto' } }}
           >
             <TextField
-              id="outlined-basic"
+              id="patientId"
               hiddenLabel
               size="small"
               variant="outlined"
-              aria-label="Enter patient name:"
-              placeholder="Patient name:"
+              aria-label="Enter patient Id:"
+              placeholder="Patient Id:"
               inputProps={{
                 autocomplete: 'off',
-                ariaLabel: 'Patient name:',
+                ariaLabel: 'Patient Id:',
               }}
             />
             <Button variant="contained" color="primary">

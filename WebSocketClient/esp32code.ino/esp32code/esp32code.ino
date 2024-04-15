@@ -61,7 +61,7 @@ void setup() {
   } else {
     Serial.println("Handshake failed.");
     while (1) {
-      // Hang on failure
+      // Hang on failure 
     }
   }
 }

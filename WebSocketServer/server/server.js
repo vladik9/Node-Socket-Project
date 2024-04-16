@@ -1,7 +1,6 @@
 
-const { PORT, getCurrentTimeFormat, checkIfDatabaseIsReady } = require('../utils/utils');
+const { PORT, getCurrentTimeFormat } = require('../utils/utils');
 const { saveEogData } = require('../eog/eogController');
-const { databaseIsReady } = require('../db/mongoose');
 
 var WebSocketServer = require('websocket').server;
 var http = require('http');
@@ -16,9 +15,9 @@ var server = http.createServer(function (request, response) {
   response.end();
 });
 //starting the server
-server.listen(PORT, function () {
+server.listen(5000, function () {
   console.log("\n##########################################");
-  console.log(getCurrentTimeFormat() + ' server listen on port:' + PORT);
+  console.log(getCurrentTimeFormat() + ' server listen on port : ' + PORT);
   console.log("##########################################\n");
 });
 
@@ -59,14 +58,6 @@ wsServer.on('request', function (request) {
       //this will save data using controller in db
       saveEogData(message.utf8Data);
 
-      //this resend the received message, instead of we can
-      // connection.sendUTF(message.utf8Data);
-
-      //send a custom message from server to client
-      //this is bidirectional connection message sent and could be disabled
-      // console.log("##############:DATA SEND:#################");
-      // connection.sendUTF("server says hello");
-      // console.log("##########################################\n");
 
     }
     else if (message.type === 'binary') {

@@ -52,6 +52,7 @@ wsServer.on('request', function (request) {
     //check if message.type is utf8 or binary, we prefer 1 one
     if (message.type === 'utf8') {
       console.log("###########:DATA RECEIVED utf8:###########");
+      console.log(getCurrentTimeFormat());
       console.log('Received Message: ' + message.utf8Data);
       console.log("##########################################\n");
 

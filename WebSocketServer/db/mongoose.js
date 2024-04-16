@@ -16,7 +16,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   // we're connected!
   console.log("\n##########################################");
-  console.log(`Successfully connected to MongoDB database with user : ${userName}`);
+  console.log(`Connected to database with user : ${userName}`);
   console.log("##########################################");
 
 });

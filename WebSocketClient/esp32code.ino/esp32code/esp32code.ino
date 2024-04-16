@@ -69,11 +69,10 @@ void setup() {
 //this will loop all services and will continuously send data to server
 void loop() {
   String data;
-  int sensorValue = 0;
+ 
 
-   sensorValue = analogRead(15);
-    Serial.println(sensorValue);
-  // if (client.connected()) {
+  
+  if (client.connected()) {
   //   //here we get back data from server, we can disable this
   //   webSocketClient.getData(data);
   //   if (data.length() > 0) {
@@ -84,20 +83,20 @@ void loop() {
 
     //this is message we can send to server,
  
-    //as we now saving to many data
-    // data = "arduino esp32 message";
-    // Serial.println("################:DATA SEND:#################");
-    // Serial.println(data);
-    // Serial.println("##########################################");
+    // as we now saving to many data
+    data = "arduino esp32 message";
+    Serial.println("################:DATA SEND:#################");
+    Serial.println(data);
+    Serial.println("##########################################");
 
-    // webSocketClient.sendData(data);
+    webSocketClient.sendData(data);
 
-  // } else {
-  //   Serial.println("Client disconnected.");
-  //   while (1) {
+  } else {
+    Serial.println("Client disconnected.");
+    while (1) {
       // Hang on disconnect.
-    // }
-  // }
+    }
+  }
 
   // wait to fully let the client disconnect
   delay(1000);

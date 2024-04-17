@@ -15,6 +15,13 @@ const char* ssid = "We_are_home_now!";
 //your WIFI password
 const char* password = "Forfun96_!";
 
+// this block is to simulate multithreading
+unsigned long previousReadInterval = 0;
+unsigned long readInterval = 500;
+
+unsigned long previousWriteInterval = 0;
+unsigned long writeInterval = 500;
+//##########################
 
 char path[] = "/";
 // this is IP address of local machine (server sicket),
@@ -26,7 +33,7 @@ WebSocketClient webSocketClient;
 // Use WiFiClient class to create TCP connections
 WiFiClient client;
 
-// flags to controle logic
+// flags to control task logic
 bool wifiConnected = false;
 bool sdCardCheckConnected = false;
 bool socketClientConnected = false;
@@ -118,7 +125,7 @@ String* readFile(fs::FS& fs, const char* path) {
       // Read a string from the file until a newline character is encountered
       String data = file.readStringUntil('\n');
       arrayOfData[index] = data;  // Store string in array
-      Serial.println(data);       // Print string to Serial
+      // Serial.println(data);       // Print string to Serial
       index++;
     } else {
       // Handle the case where the file contains more strings than the array can hold
@@ -154,12 +161,12 @@ bool initWebSocketClientConnection() {
   }
 }
 
-void webSocketDataSend() {
-  String data;
+void webSocketDataSend(String data) {
+   
   if (client.connected()) {
     // this is message we can send to server,
     // as we now saving to many data
-    data = "arduino esp32 message";
+    // data = "arduino esp32 message";
 
     Serial.println("################:DATA SEND:#################");
     Serial.println(data);
@@ -175,6 +182,27 @@ void webSocketDataSend() {
   // wait to fully let the client disconnect
   delay(1000);
 }
+int generateRandomNumber(){
+  return random(1024);
+}
+
+
+//this will handle data read from senseor and write it in file
+void readDataFromSensorAndWriteOnSdCard(){
+  // Generate a random number between 0 and 1023
+  // this should be changed to read data from senor
+  // instead of giving a random numbers
+  // but is ok to simulate a sensor data
+  int randomNumber = generateRandomNumber();
+   // Write the data to SD card (assuming you have an SD card connected)
+  File dataFile = SD.open("data.csv", FILE_APPEND); // Open the file for appending (create if not exists)
+  if (dataFile) {
+    dataFile.println(randomNumber); // Write the random number to the file
+    dataFile.close(); // Close the file
+  } else {
+    Serial.println("Error opening data.txt"); // Print an error message if unable to open the file
+  }
+}
 
 void setup() {
   Serial.begin(115200);
@@ -187,7 +215,7 @@ void setup() {
 
   if (wifiConnected && sdCardCheckConnected) {
     socketClientConnected = initWebSocketClientConnection();
-
+  }
     // move this to loop
     // if (socketClientConnected) {
     //   listActiveDirectories(SD, "/", 0);
@@ -195,15 +223,43 @@ void setup() {
     //   String* dataFromFile = readFile(SD, "/data.csv");
     //   Serial.println("Here to handle data");
     // }
-  }
+  
 }
-
-
-
-
-
-
 
 
 void loop() {
+ int tempData;
+  // Task 1
+  if (millis() - previousReadInterval >= readInterval) {
+    // Update the timing
+    previousReadInterval = millis();
+    // Perform task 1
+   tempData = generateRandomNumber();
+
+    Serial.println("Task 1 is running...");
+  }
+
+  // Task 2
+  if (millis() - previousWriteInterval >= writeInterval) {
+    // Update the timing
+    previousWriteInterval = millis();
+     
+    // Perform task 2
+    webSocketDataSend(String(tempData));
+    Serial.println("Task 2 is running...");
+  }
+
+  // Other tasks can go here
+  
+  // Main loop continues to run
+
+
+Serial.print("In loop");
+// if(wifiConnected && sdCardCheckConnected){
+//     Serial.print("Will read here");
+//  String* dataFromFile = readFile(SD, "/data.csv");
+//  Serial.println("Here to handle data");
+
 }
+
+ 

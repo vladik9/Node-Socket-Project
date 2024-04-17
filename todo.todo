@@ -1,4 +1,4 @@
-1 Reading from file using SD card
+1 Reading from file using SD card - done
 2 Reading CSV and converting to array, send this to server
 3 Make a timeout between each data sent via socket to the server
 4 Making POST request to DB and save documents

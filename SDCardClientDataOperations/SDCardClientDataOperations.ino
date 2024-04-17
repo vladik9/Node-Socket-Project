@@ -205,6 +205,8 @@ void readDataFromSensorAndWriteOnSdCard(){
 }
 
 void setup() {
+//here i can just initialize wifi and sd card
+//make socket connect after 2 are set
   Serial.begin(115200);
   Serial.println("Setup");
 
@@ -216,13 +218,13 @@ void setup() {
   if (wifiConnected && sdCardCheckConnected) {
     socketClientConnected = initWebSocketClientConnection();
   }
-    // move this to loop
-    // if (socketClientConnected) {
-    //   listActiveDirectories(SD, "/", 0);
+    // uncoment this to show list of docs in sd card
+    if (socketClientConnected) {
+    listActiveDirectories(SD, "/", 0);
 
     //   String* dataFromFile = readFile(SD, "/data.csv");
     //   Serial.println("Here to handle data");
-    // }
+    }
   
 }
 

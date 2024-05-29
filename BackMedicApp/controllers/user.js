@@ -63,8 +63,8 @@ router.post('/login', async (req, res) => {
   }
 });
 
-app.get('/logout', authMiddleware, (req, res) => {
-  res.send(`Hello ${req.user.name}, you have been log out.`);
+router.post('/logout', authMiddleware, (req, res) => {
+  res.send(`Hello ${req.user.medicId}, you have been log out.`);
 });
 
 

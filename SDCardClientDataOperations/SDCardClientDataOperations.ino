@@ -213,6 +213,8 @@ String readDataFromSDCard(fs::FS& fs, const char* path, unsigned long& lastReadP
 }
 
 void setup() {
+//here i can just initialize wifi and sd card
+//make socket connect after 2 are set
   Serial.begin(115200);
   Serial.println("Setup");
 

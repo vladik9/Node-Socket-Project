@@ -1,4 +1,4 @@
-
+refactor this to work 
 #include <Arduino.h>
 #include <WiFi.h>
 #include <AsyncTCP.h>
@@ -8,7 +8,10 @@
 #include "SPI.h"
 #include <WebSocketClient.h>
 // Define the maximum number of strings to read from the file
-#define MAX_STRINGS 150
+#define MAX_STRINGS 10
+
+// Declare and initialize the lastReadPosition variable
+unsigned long lastReadPosition = 0;
 
 //your WIFI ID
 const char* ssid = "We_are_home_now!";
@@ -106,38 +109,7 @@ void listActiveDirectories(fs::FS& fs, const char* dirname, uint8_t levels) {
   }
 }
 
-// Function to read data from a file and return an array of strings
-String* readFile(fs::FS& fs, const char* path) {
-  static String arrayOfData[MAX_STRINGS];  // Array to hold data from the file
 
-  Serial.printf("Reading file: %s\n", path);
-
-  File file = fs.open(path);
-  if (!file) {
-    Serial.println("Failed to open file for reading");
-    return nullptr;  // Return nullptr to indicate failure
-  }
-
-  Serial.print("Read from file: ");
-  int index = 0;
-  while (file.available()) {
-    if (index < MAX_STRINGS) {  // Ensure we don't exceed the array bounds
-      // Read a string from the file until a newline character is encountered
-      String data = file.readStringUntil('\n');
-      arrayOfData[index] = data;  // Store string in array
-      // Serial.println(data);       // Print string to Serial
-      index++;
-    } else {
-      // Handle the case where the file contains more strings than the array can hold
-      Serial.println("\nFile contains more strings than the array can hold.");
-      break;  // Exit the loop
-    }
-  }
-  file.close();
-
-  // Return the array of strings to the caller
-  return arrayOfData;
-}
 
 // init connection to webSockect
 bool initWebSocketClientConnection() {
@@ -162,7 +134,7 @@ bool initWebSocketClientConnection() {
 }
 
 void webSocketDataSend(String data) {
-   
+
   if (client.connected()) {
     // this is message we can send to server,
     // as we now saving to many data
@@ -182,26 +154,62 @@ void webSocketDataSend(String data) {
   // wait to fully let the client disconnect
   delay(1000);
 }
-int generateRandomNumber(){
+int generateRandomNumber() {
   return random(1024);
 }
 
-
 //this will handle data read from senseor and write it in file
-void readDataFromSensorAndWriteOnSdCard(){
+void readDataFromSensorAndWriteOnSdCard() {
   // Generate a random number between 0 and 1023
   // this should be changed to read data from senor
   // instead of giving a random numbers
   // but is ok to simulate a sensor data
   int randomNumber = generateRandomNumber();
-   // Write the data to SD card (assuming you have an SD card connected)
-  File dataFile = SD.open("data.csv", FILE_APPEND); // Open the file for appending (create if not exists)
+  // Write the data to SD card (assuming you have an SD card connected)
+  File dataFile = SD.open("data.csv", FILE_APPEND);  // Open the file for appending (create if not exists)
   if (dataFile) {
-    dataFile.println(randomNumber); // Write the random number to the file
-    dataFile.close(); // Close the file
+    dataFile.println(randomNumber);  // Write the random number to the file
+    dataFile.close();                // Close the file
   } else {
-    Serial.println("Error opening data.txt"); // Print an error message if unable to open the file
+    Serial.println("Error opening data.txt");  // Print an error message if unable to open the file
   }
+}
+// Function to read data from a file and return a CSV string
+String readDataFromSDCard(fs::FS& fs, const char* path, unsigned long& lastReadPosition) {
+  String csvData;  // String to hold CSV data from the file
+
+  Serial.printf("Reading file: %s\n", path);
+
+  File file = fs.open(path);
+  if (!file) {
+    Serial.println("Failed to open file for reading");
+    return "";  // Return an empty string to indicate failure
+  }
+
+  // Set the file position to the last read position
+  file.seek(lastReadPosition);
+
+  Serial.print("Read from file: ");
+  while (file.available()) {
+    // Read a string from the file until a newline character is encountered
+    String data = file.readStringUntil('\n');
+    data.trim();  // Trim any leading or trailing whitespace
+    csvData += data;  // Add trimmed data to CSV data
+    csvData += ",";  // Add comma separator
+  }
+
+  // Remove trailing comma
+  if (csvData.endsWith(",")) {
+    csvData.remove(csvData.length() - 1);
+  }
+
+  // Update the last read position
+  lastReadPosition = file.position();
+
+  file.close();
+
+  // Return the CSV data string
+  return csvData;
 }
 
 void setup() {
@@ -216,25 +224,24 @@ void setup() {
   if (wifiConnected && sdCardCheckConnected) {
     socketClientConnected = initWebSocketClientConnection();
   }
-    // move this to loop
-    // if (socketClientConnected) {
-    //   listActiveDirectories(SD, "/", 0);
+  // move this to loop
+  // if (socketClientConnected) {
+  //   listActiveDirectories(SD, "/", 0);
 
-    //   String* dataFromFile = readFile(SD, "/data.csv");
-    //   Serial.println("Here to handle data");
-    // }
-  
+  //   String* dataFromFile = readFile(SD, "/data.csv");
+  //   Serial.println("Here to handle data");
+  // }
 }
 
 
 void loop() {
- int tempData;
+
   // Task 1
   if (millis() - previousReadInterval >= readInterval) {
     // Update the timing
     previousReadInterval = millis();
     // Perform task 1
-   tempData = generateRandomNumber();
+    readDataFromSensorAndWriteOnSdCard();
 
     Serial.println("Task 1 is running...");
   }
@@ -243,23 +250,22 @@ void loop() {
   if (millis() - previousWriteInterval >= writeInterval) {
     // Update the timing
     previousWriteInterval = millis();
-     
+
     // Perform task 2
-    webSocketDataSend(String(tempData));
+  // Send data to WebSocket
+    webSocketDataSend(readDataFromSDCard(SD, "/data.csv", lastReadPosition));
     Serial.println("Task 2 is running...");
   }
 
   // Other tasks can go here
+  Serial.print("In loop");
   
-  // Main loop continues to run
+}
 
 
-Serial.print("In loop");
+
+
 // if(wifiConnected && sdCardCheckConnected){
 //     Serial.print("Will read here");
 //  String* dataFromFile = readFile(SD, "/data.csv");
 //  Serial.println("Here to handle data");
-
-}
-
- 

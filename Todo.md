@@ -1,0 +1,5 @@
+- [ ] Add context
+- [ ] Make login working
+- [ ] Make logout working
+- [ ] Make some graphs with dummy data
+- [ ] Add one medic logic to many patients

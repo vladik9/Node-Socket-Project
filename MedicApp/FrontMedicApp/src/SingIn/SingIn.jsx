@@ -13,31 +13,36 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import * as React from 'react';
 import { MedicContext } from '../Context/medicContext';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://github.com/vladik9/NodeSocketProject">
-        EOG
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-
-
 const defaultTheme = createTheme();
 
 export default function SignIn() {
   const medicContext = React.useContext(MedicContext);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    const formData = new FormData(event.currentTarget);
+    // console.log({
+    //   medicId: formData.get('medicId'),
+    //   password: formData.get('password'),
+    //   rememberMe: formData.get('remember') === 'remember'
+    // });
+    const medicId = formData.get('medicId');
+    const password = formData.get('password');
+    const rememberMe = formData.get('remember') === 'remember';
+    if (medicId === null || medicId === '' || password === null || password === '') {
+      alert("Please fill all the fields");
+      return;
+    }
+    if (medicId.length < 4) {
+      alert("Please enter a valid medicId");
+      return;
+    }
+    if (password.length < 4) {
+      alert("Please enter a valid password");
+      return;
+    }
+    medicContext.handleLogin({
+      medicId, password, rememberMe
     });
   };
 
@@ -68,9 +73,6 @@ export default function SignIn() {
               label="Medic Id"
               type="number"
               name="medicId"
-              autoComplete="medicId"
-              defaultValue={"822487284628"}
-              autoFocus
             />
             <TextField
               margin="normal"
@@ -80,21 +82,17 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
-              defaultValue={"medicPassword"}
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox value="remember" color="primary"
+                id='isCheckedIn' name='remember' defaultChecked={false} />}
               label="Remember me"
             />
             <Button
-
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              component="a"
-              href="/data"
-              onClick={() => medicContext.handleLogin()}
+              type="submit" // Set the type to "submit"
             >
               Log In
             </Button>
@@ -103,5 +101,18 @@ export default function SignIn() {
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
+  );
+};
+
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://github.com/vladik9/NodeSocketProject">
+        EOG
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
   );
 }

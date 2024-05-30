@@ -1,9 +1,11 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState } from 'react';
 
 // Create a Context
 export const MedicContext = createContext({
   isUserLogged: "",
-  handleLogin: () => { },
+  isRememberMeChecked: "",
+  handleIsRememberMeChecked: () => { },
+  handleLogin: (loginInfo) => { },
   handleLogout: () => { },
   handleSearch: () => { }
   //this is not used just for admin to add new medics
@@ -14,12 +16,15 @@ export const MedicContext = createContext({
 
 export const MedicContextProvider = (props) => {
 
-
   //all function goes here
   const [isUserLogged, setIsUserLogged] = useState(false);
-  const handleLogin = () => {
-    setIsUserLogged(true); console.log("in handleLogin ");
+  const [isRememberMeChecked, setIsRememberMeChecked] = useState(false);
+  const handleIsRememberMeChecked = () => { setIsRememberMeChecked(true); };
+  const handleLogin = (loginInfo) => {
+
+
   };
+
   const handleLogout = () => { setIsUserLogged(false); };
   const handleSearch = () => { };
   const handleRegister = () => { };
@@ -27,12 +32,15 @@ export const MedicContextProvider = (props) => {
   return (<MedicContext.Provider
     value={{
       isUserLogged: isUserLogged,
+      isRememberMeChecked: isRememberMeChecked,
+      handleIsRememberMeChecked: handleIsRememberMeChecked,
       handleLogin: handleLogin,
       handleLogout: handleLogout,
       handleSearch: handleSearch
       //this is not used just for admin to add new medics
       , handleRegister: handleRegister
 
-    }}>{props.children}</MedicContext.Provider>
+    }}>{props.children}
+  </MedicContext.Provider>
   );
 };

@@ -2,12 +2,12 @@ import { alpha } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import React, { useState } from 'react';
-import SimplePopup from '../Popup/Popup';
+import React from 'react';
+import PatientSelect from './PatientSelect';
+
 export default function Hero() {
-  const [patientId, setPatientId] = useState(0);
+
   return (
     <Box
       id="graph"
@@ -53,31 +53,16 @@ export default function Hero() {
               life dynamics
             </Typography>
           </Typography>
-
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             alignSelf="center"
             spacing={1}
             useFlexGap
             sx={{ pt: 2, width: { xs: '100%', sm: 'auto' } }}
-          >
-            <TextField
-              id="patientId"
-              hiddenLabel
-              size="small"
-              variant="outlined"
-              aria-label="Enter patient Id:"
-              placeholder="Patient Id:"
-              value={patientId}
-              onChange={(e) => setPatientId(e.target.value)}
-              inputProps={{
-                autocomplete: 'off',
-                ariaLabel: 'Patient Id:',
-              }}
-            />
-            <SimplePopup action={"Search"} patientId={patientId} />
-          </Stack>
 
+          >
+            <PatientSelect />
+          </Stack>
         </Stack>
         <Box
           id="image"

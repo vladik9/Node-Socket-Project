@@ -1,5 +1,5 @@
 import Router from "./Router/Router";
-import { MedicContextProvider, MedicContext } from './Context/medicContext';
+import { MedicContextProvider } from './Context/medicContext';
 function App() {
   return (
     <div >

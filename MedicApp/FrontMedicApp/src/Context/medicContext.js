@@ -1,8 +1,8 @@
 import React, { createContext, useState } from 'react';
-import { loginApi } from '../api/api';
+import { loginApi, logoutApi } from '../api/api';
 // Create a Context
 export const MedicContext = createContext({
-  isUserLogged: false,
+  isUserLogged: "",
   isRememberMeChecked: "",
   currentUser: "",
   handleIsRememberMeChecked: () => { },
@@ -30,9 +30,8 @@ export const MedicContextProvider = (props) => {
         alert("Invalid credentials");
         return;
       }
-      setCurrentUser(res.data.user);
+      setCurrentUser(res.data);
       setIsUserLogged(true);
-      console.log("setting is user " + isUserLogged);
     } catch (e) {
       // Handle error response
       if (e.response && e.response.status === 400) {
@@ -47,7 +46,14 @@ export const MedicContextProvider = (props) => {
     }
   };
 
-  const handleLogout = () => { setIsUserLogged(false); };
+  const handleLogout = async () => {
+    setIsUserLogged(false);
+    const token = currentUser.token;
+    try {
+      await logoutApi(token);
+    } catch (error) { console.log(error); }
+
+  };
   const handleSearch = () => { };
   const handleRegister = () => { };
 

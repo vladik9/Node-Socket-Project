@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import * as React from 'react';
-
+import *   as React from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -12,6 +11,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import ToggleColorMode from '../ToggleColorMode/ToggleColorMode';
+import { useContext } from 'react';
+import { MedicContext } from '../../Context/medicContext';
+
 const logoStyle = {
   width: '140px',
   height: 'auto',
@@ -20,7 +22,7 @@ const logoStyle = {
 
 function AppAppBar({ mode, toggleColorMode }) {
   const [open, setOpen] = React.useState(false);
-
+  const { handleLogout, currentUser } = useContext(MedicContext);
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
@@ -105,19 +107,19 @@ function AppAppBar({ mode, toggleColorMode }) {
                     About
                   </Typography>
                 </MenuItem>
-               
+
               </Box>
             </Box>
             <Box>
-            <Button
+              <Button
                 color="primary"
                 variant="text"
-                size="small"          
+                size="small"
               >
-                Medic id: 822487284628
+                Medic id: {currentUser.user.medicId}
               </Button>
-              </Box>
-              <Box
+            </Box>
+            <Box
               sx={{
                 display: { xs: 'none', md: 'flex' },
                 gap: 0.5,
@@ -126,17 +128,17 @@ function AppAppBar({ mode, toggleColorMode }) {
             >
               <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
             </Box>
-              <Box>
+            <Box>
               <Button
                 color="primary"
                 variant="contained"
                 size="small"
                 component="a"
-                href="/"
+                onClick={handleLogout}
               >
                 Log out
               </Button>
-              </Box>
+            </Box>
             <Box sx={{ display: { sm: '', md: 'none' } }}>
               <Button
                 variant="text"

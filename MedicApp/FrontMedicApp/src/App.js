@@ -1,9 +1,11 @@
 import Router from "./Router/Router";
-
+import { MedicContextProvider, MedicContext } from './Context/medicContext';
 function App() {
   return (
     <div >
-      <Router />
+      <MedicContextProvider>
+        <Router />
+      </MedicContextProvider>
     </div>
   );
 }

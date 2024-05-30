@@ -43,4 +43,5 @@ create a .env file with content in src/
 
 ```
 PUBLIC_URL = "./public/"
+BASE_URL="http://localhost:8080/"
 ```

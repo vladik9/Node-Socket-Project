@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import * as React from 'react';
-import { MedicContext } from '../Context/medicContext';
+import { MedicContext } from '../../Context/medicContext';
 
 const defaultTheme = createTheme();
 
@@ -21,11 +21,7 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    // console.log({
-    //   medicId: formData.get('medicId'),
-    //   password: formData.get('password'),
-    //   rememberMe: formData.get('remember') === 'remember'
-    // });
+
     const medicId = formData.get('medicId');
     const password = formData.get('password');
     const rememberMe = formData.get('remember') === 'remember';

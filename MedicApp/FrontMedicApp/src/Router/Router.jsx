@@ -1,25 +1,20 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useContext } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import MainPage from '../Components/MainPage/MainPage';
-import SingIn from '../SingIn/SingIn';
-import { MedicContextProvider } from '../Context/medicContext';
-
+import SignIn from '../Components/SignIn/SignIn';
+import { MedicContextProvider, MedicContext } from '../Context/medicContext';
 
 export default function Router() {
+  const { isUserLogged } = useContext(MedicContext);
+  console.log("isUserLogged value " + isUserLogged);
   return (
     <React.StrictMode>
       <BrowserRouter>
-        <MedicContextProvider>
-          <Routes>
-            <Route path="/" element={<SingIn />}>
-            </Route>
-            <Route>
-              <Route path="/data" element={<MainPage />} />
-            </Route>
-          </Routes>
-        </MedicContextProvider>
+        <Routes>
+          <Route path="/" element={!isUserLogged ? <SignIn /> : <Navigate to="/dashboard" />} />
+          <Route path="/dashboard" element={isUserLogged ? <MainPage /> : <Navigate to="/" />} />
+        </Routes>
       </BrowserRouter>
     </React.StrictMode>
   );
 }
-

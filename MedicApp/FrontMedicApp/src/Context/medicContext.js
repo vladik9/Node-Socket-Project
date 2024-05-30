@@ -8,9 +8,10 @@ export const MedicContext = createContext({
   handleIsRememberMeChecked: () => { },
   handleLogin: (loginInfo) => { },
   handleLogout: () => { },
-  handleSearch: () => { }
+  handleSearchByMedicId: (id) => { },
+  handleSearchByPatientId: (id) => { },
   //this is not used just for admin to add new medics
-  , handleRegister: () => { }
+  handleRegister: () => { }
 });
 
 export const MedicContextProvider = (props) => {
@@ -19,7 +20,9 @@ export const MedicContextProvider = (props) => {
   const [isMedicLogged, setIsMedicLogged] = useState(false);
   const [isRememberMeChecked, setIsRememberMeChecked] = useState(false);
   const [currentMedic, setCurrentMedic] = useState(null);
-  const handleIsRememberMeChecked = () => { setIsRememberMeChecked(true); };
+  const handleIsRememberMeChecked = () => {
+    setIsRememberMeChecked(true);
+  };
 
   const handleLogin = async (loginInfo) => {
     try {
@@ -54,7 +57,9 @@ export const MedicContextProvider = (props) => {
     } catch (error) { console.log(error); }
 
   };
-  const handleSearch = () => { };
+  const handleSearchByMedicId = (id) => { };
+  const handleSearchByPatientId = (id) => { };
+
   const handleRegister = () => { };
 
   return (<MedicContext.Provider
@@ -65,9 +70,10 @@ export const MedicContextProvider = (props) => {
       handleIsRememberMeChecked: handleIsRememberMeChecked,
       handleLogin: handleLogin,
       handleLogout: handleLogout,
-      handleSearch: handleSearch
+      handleSearchByMedicId: handleSearchByMedicId,
+      handleSearchByPatientId: handleSearchByPatientId,
       //this is not used just for admin to add new medics
-      , handleRegister: handleRegister
+      handleRegister: handleRegister
     }}>
     {props.children}
   </MedicContext.Provider>

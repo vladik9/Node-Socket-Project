@@ -8,7 +8,7 @@ const medicSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    match: [/^\d+$/, 'Phone number should contain only numbers.']
+    match: [/^\d+$/, 'id should contain only numbers.']
   },
   password: {
     type: String,

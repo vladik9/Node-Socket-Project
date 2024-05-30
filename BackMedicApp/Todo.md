@@ -1,6 +1,0 @@
-- [x] Create/Make register endpoint
-- [x] Create/Make login endpoint
-- [x] Create/Make logout working
-- [ ] Create get request using middleware to get from database list of patient and id's of their info
-- [ ] Integrate it in Front-end and make login/ register and and logout working
-- [ ] check if need to make model and controller for patient info

@@ -5,13 +5,13 @@ import SignIn from '../Components/SignIn/SignIn';
 import { MedicContext } from '../Context/medicContext';
 
 export default function Router() {
-  const { isUserLogged } = useContext(MedicContext);
+  const { isMedicLogged } = useContext(MedicContext);
   return (
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={!isUserLogged ? <SignIn /> : <Navigate to="/dashboard" />} />
-          <Route path="/dashboard" element={isUserLogged ? <MainPage /> : <Navigate to="/" />} />
+          <Route path="/" element={!isMedicLogged ? <SignIn /> : <Navigate to="/dashboard" />} />
+          <Route path="/dashboard" element={isMedicLogged ? <MainPage /> : <Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

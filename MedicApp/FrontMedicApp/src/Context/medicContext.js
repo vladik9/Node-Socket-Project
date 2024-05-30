@@ -2,9 +2,9 @@ import React, { createContext, useState } from 'react';
 import { loginApi, logoutApi } from '../api/api';
 // Create a Context
 export const MedicContext = createContext({
-  isUserLogged: "",
+  isMedicLogged: "",
   isRememberMeChecked: "",
-  currentUser: "",
+  currentMedic: "",
   handleIsRememberMeChecked: () => { },
   handleLogin: (loginInfo) => { },
   handleLogout: () => { },
@@ -16,9 +16,9 @@ export const MedicContext = createContext({
 export const MedicContextProvider = (props) => {
 
   //all function goes here
-  const [isUserLogged, setIsUserLogged] = useState(false);
+  const [isMedicLogged, setIsMedicLogged] = useState(false);
   const [isRememberMeChecked, setIsRememberMeChecked] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentMedic, setCurrentMedic] = useState(null);
   const handleIsRememberMeChecked = () => { setIsRememberMeChecked(true); };
 
   const handleLogin = async (loginInfo) => {
@@ -26,20 +26,20 @@ export const MedicContextProvider = (props) => {
       const res = await loginApi(loginInfo);
 
       // Check if the login response indicates invalid credentials
-      if (!res.data || !res.data.user.medicId) {
+      if (!res.data || !res.data.medic.medicId) {
         alert("Invalid credentials");
         return;
       }
-      setCurrentUser(res.data);
-      setIsUserLogged(true);
+      setCurrentMedic(res.data);
+      setIsMedicLogged(true);
     } catch (e) {
       // Handle error response
       if (e.response && e.response.status === 400) {
         alert("Invalid credentials");
-        setIsUserLogged(false);
+        setIsMedicLogged(false);
       } else {
         console.log("Login error:", e);
-        setIsUserLogged(false);
+        setIsMedicLogged(false);
 
         alert("An error occurred during login. Please try again.");
       }
@@ -47,8 +47,8 @@ export const MedicContextProvider = (props) => {
   };
 
   const handleLogout = async () => {
-    setIsUserLogged(false);
-    const token = currentUser.token;
+    setIsMedicLogged(false);
+    const token = currentMedic.token;
     try {
       await logoutApi(token);
     } catch (error) { console.log(error); }
@@ -59,9 +59,9 @@ export const MedicContextProvider = (props) => {
 
   return (<MedicContext.Provider
     value={{
-      isUserLogged: isUserLogged,
+      isMedicLogged: isMedicLogged,
       isRememberMeChecked: isRememberMeChecked,
-      currentUser: currentUser,
+      currentMedic: currentMedic,
       handleIsRememberMeChecked: handleIsRememberMeChecked,
       handleLogin: handleLogin,
       handleLogout: handleLogout,

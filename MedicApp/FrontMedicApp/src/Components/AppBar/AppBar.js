@@ -22,7 +22,7 @@ const logoStyle = {
 
 function AppAppBar({ mode, toggleColorMode }) {
   const [open, setOpen] = React.useState(false);
-  const { handleLogout, currentUser } = useContext(MedicContext);
+  const { handleLogout, currentMedic } = useContext(MedicContext);
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
@@ -116,7 +116,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="text"
                 size="small"
               >
-                Medic id: {currentUser.user.medicId}
+                Medic id: {currentMedic.medic.medicId}
               </Button>
             </Box>
             <Box

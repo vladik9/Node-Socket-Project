@@ -8,8 +8,9 @@ dotenv.config();
 require("./db/db");
 app.use(cors());
 const medic = require("./controllers/medic");
+const patient = require("./controllers/patient");
 app.use("/api/medic", medic);
-
+app.use("/api/patient", patient);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

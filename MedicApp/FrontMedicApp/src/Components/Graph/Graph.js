@@ -5,9 +5,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 import PatientSelect from './PatientSelect';
+import Chart from './Chart';
 
 export default function Hero() {
-
   return (
     <Box
       id="graph"
@@ -59,18 +59,21 @@ export default function Hero() {
             spacing={1}
             useFlexGap
             sx={{ pt: 2, width: { xs: '100%', sm: 'auto' } }}
-
           >
             <PatientSelect />
           </Stack>
         </Stack>
+
         <Box
           id="image"
           sx={(theme) => ({
             mt: { xs: 8, sm: 10 },
             alignSelf: 'center',
-            height: { xs: 200, sm: 700 },
+            height: { xs: 200, sm: 400 },
             width: '100%',
+            display: 'flex', // Ensures the box uses flexbox
+            alignItems: 'center', // Centers content vertically
+            justifyContent: 'center', // Centers content horizontally
             backgroundImage:
               theme.palette.mode === 'light'
                 ? 'url("/static/images/templates/templates-images/hero-light.png")'
@@ -87,7 +90,9 @@ export default function Hero() {
                 ? `0 0 12px 8px ${alpha('#9CCCFC', 0.2)}`
                 : `0 0 24px 12px ${alpha('#033363', 0.2)}`,
           })}
-        />
+        >
+          <Chart /> {/* Injecting Chart component here */}
+        </Box>
       </Container>
     </Box>
   );

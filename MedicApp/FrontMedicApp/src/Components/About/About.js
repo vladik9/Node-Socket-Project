@@ -1,9 +1,4 @@
-import AutoFixHighRoundedIcon from '@mui/icons-material/AutoFixHighRounded';
-import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
-import QueryStatsRoundedIcon from '@mui/icons-material/QueryStatsRounded';
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
-import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
-import ThumbUpAltRoundedIcon from '@mui/icons-material/ThumbUpAltRounded';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
@@ -31,11 +26,11 @@ const items = [
     description:
       'Text',
   },
- 
- 
- 
- 
- 
+
+
+
+
+
 ];
 
 export default function About() {
@@ -68,7 +63,7 @@ export default function About() {
             About
           </Typography>
           <Typography variant="body1" sx={{ color: 'grey.400' }}>
-           Message
+            Message
           </Typography>
         </Box>
         <Grid container spacing={2.5}>

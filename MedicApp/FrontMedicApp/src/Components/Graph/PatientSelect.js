@@ -7,34 +7,20 @@ import Select from '@mui/material/Select';
 import { MedicContext } from '../../Context/medicContext';
 import { useContext, useEffect, useState } from 'react';
 export default function PatientSelect() {
-  const [patientId, setPatientId] = useState(0);
+  const [patientId, setPatientId] = useState("");
 
-  const patientList = [
-    12345678,
-    87654321,
-    23456789,
-    98765432,
-    34567890,
-    67890123,
-    45678901,
-    78901234
-  ];
-  const { handleSearch } = useContext(MedicContext);
+  const { handleSearchByMedicId, handleSearchByPatientId, patientList, currentMedic } = useContext(MedicContext);
 
   // //ToDo: this will make a call in db to get all users info assigned to same medic
   useEffect(() => {
-    console.log("getting list of patients from db...");
+    handleSearchByMedicId(currentMedic.medic.medicId);
   }, []);
-  useEffect(() => {
-    console.log("get info for one patient");
-  }, [patientId]);
 
 
   const handleDropSearch = (event) => {
     const id = event.target.value;
-    console.log(id);
     setPatientId(event.target.value);
-    handleSearch(id);
+    handleSearchByPatientId(id);
   };
 
   return (
@@ -44,7 +30,7 @@ export default function PatientSelect() {
         <Select
           labelId="demo-simple-select-label"
           id="patientId"
-          value={patientList[0]}
+          value={patientId}
           label="Patient id:"
           onChange={handleDropSearch}
         >

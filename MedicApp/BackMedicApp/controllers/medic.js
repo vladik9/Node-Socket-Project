@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
 
   try {
     const medic = await Medic.findOne({ medicId });
-    console.log(medic);
+
 
     if (!medic) {
       return res.status(400).json({ message: 'Invalid login info' });
@@ -66,6 +66,25 @@ router.post('/login', async (req, res) => {
 
 router.post('/logout', authMiddleware, (req, res) => {
   res.send(`Hello ${req.medic.medicId}, you have been log out.`);
+});
+
+router.get('/search/:id', authMiddleware, async (req, res) => {
+  const listOfPatients = [
+    12345678,
+    87654321,
+    23456789,
+    98765432,
+    34567890,
+  ];
+  try {
+    const medic = await Medic.findOne({ medicId: req.params.id });
+    if (!medic) {
+      return res.status(404).json({ message: 'Medic not found' });
+    }
+    res.send({ listOfPatients });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 

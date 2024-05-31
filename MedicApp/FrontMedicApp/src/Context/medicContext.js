@@ -1,10 +1,13 @@
 import React, { createContext, useState } from 'react';
-import { loginApi, logoutApi } from '../api/api';
+import { loginApi, logoutApi, searchByMedicId, searchByPatientId } from '../api/api';
 // Create a Context
+
 export const MedicContext = createContext({
   isMedicLogged: "",
   isRememberMeChecked: "",
   currentMedic: "",
+  patientList: [],
+  currentPatient: [],
   handleIsRememberMeChecked: () => { },
   handleLogin: (loginInfo) => { },
   handleLogout: () => { },
@@ -20,6 +23,8 @@ export const MedicContextProvider = (props) => {
   const [isMedicLogged, setIsMedicLogged] = useState(false);
   const [isRememberMeChecked, setIsRememberMeChecked] = useState(false);
   const [currentMedic, setCurrentMedic] = useState(null);
+  const [patientList, setPatientList] = useState([]);
+  const [currentPatient, setCurrentPatient] = useState([]);
   const handleIsRememberMeChecked = () => {
     setIsRememberMeChecked(true);
   };
@@ -57,8 +62,38 @@ export const MedicContextProvider = (props) => {
     } catch (error) { console.log(error); }
 
   };
-  const handleSearchByMedicId = (id) => { };
-  const handleSearchByPatientId = (id) => { };
+  const handleSearchByMedicId = async (id) => {
+    const token = currentMedic.token;
+
+    try {
+      // setPatientList([
+      //   12345678,
+      //   87654321,
+      //   23456789,
+      //   98765432,
+      //   34567890,
+      // ]);
+      const patientList = await searchByMedicId(id, token);
+      const result = patientList?.data?.listOfPatients || [];
+      setPatientList(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleSearchByPatientId = async (id) => {
+    const token = currentMedic.token;
+    try {
+      const patientData = await searchByPatientId(id, token);
+      const result = patientData?.data?.patientData || [];
+
+      setCurrentPatient(result);
+    } catch (error) {
+      console.log(error);
+    };
+  };
+
+
+
 
   const handleRegister = () => { };
 
@@ -67,6 +102,8 @@ export const MedicContextProvider = (props) => {
       isMedicLogged: isMedicLogged,
       isRememberMeChecked: isRememberMeChecked,
       currentMedic: currentMedic,
+      patientList: patientList,
+      currentPatient: currentPatient,
       handleIsRememberMeChecked: handleIsRememberMeChecked,
       handleLogin: handleLogin,
       handleLogout: handleLogout,

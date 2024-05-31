@@ -8,7 +8,7 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, tokenSecret); // Replace 'your_jwt_secret' with your actual secret key
+    const decoded = jwt.verify(token, tokenSecret);
     req.medic = decoded; // Attach the decoded payload to the request object
     next(); // Pass control to the next middleware or route handler
   } catch (err) {

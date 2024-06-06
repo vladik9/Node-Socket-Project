@@ -10,7 +10,8 @@ app.use(express.json());
 
 // Registration endpoint
 router.post('/register', async (req, res) => {
-  const { medicId, password, name } = req.body;
+  const { medicId, password, name, patientList } = req.body;
+  console.log("in register");
   try {
     // Check if the medic already exists
     const existingMedic = await Medic.findOne({ medicId });
@@ -20,7 +21,7 @@ router.post('/register', async (req, res) => {
 
     // Create a new medic
     const newMedic = new Medic({
-      medicId, password, name // This will be hashed by the pre-save hook in the Medic model
+      medicId, password, name, patientList // This will be hashed by the pre-save hook in the Medic model
     });
 
     // Save the medic to the database

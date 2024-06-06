@@ -18,20 +18,25 @@ const medicSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
+  },
+  patientList: {
+    type: [String],
+    default: []
   }
-}, {
-  timestamps: true, toJSON: {
-    transform: function (doc, ret) {
-      delete ret.password;
-      return ret;
+},
+  {
+    timestamps: true, toJSON: {
+      transform: function (doc, ret) {
+        delete ret.password;
+        return ret;
+      }
+    }, toObject: {
+      transform: function (doc, ret) {
+        delete ret.password;
+        return ret;
+      }
     }
-  }, toObject: {
-    transform: function (doc, ret) {
-      delete ret.password;
-      return ret;
-    }
-  }
-});
+  });
 
 // Hash the password before saving the medic model
 medicSchema.pre('save', async function (next) {

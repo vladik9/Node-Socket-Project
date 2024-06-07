@@ -1,5 +1,9 @@
 - [x] Add context
 - [x] Make login working
 - [x] Make logout working
-- [ ] Make some graphs with dummy data
+- [x] Make some graphs with dummy data
 - [ ] Add one medic logic to many patients
+- [ ] ##############
+- [ ] Add medic option to search and patient to view list
+- [ ] Make Patient search
+- [ ] Add input to search and buton to search

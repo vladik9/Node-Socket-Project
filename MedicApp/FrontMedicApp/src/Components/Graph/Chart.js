@@ -10,10 +10,17 @@ export default function Chart() {
   return (
     <LineChart
       xAxis={[{ data: Array.from({ length: data.length }, (_, i) => i + 1) }]}
-      series={[{ data }]}
+      series={[
+        {
+          data,
+          showMark: false,
+        },
+      ]}
+
       height={400}
       margin={{ left: 30, right: 30, top: 30, bottom: 30 }}
       grid={{ vertical: true, horizontal: true }}
+
     />
   );
 }

@@ -9,7 +9,13 @@ const patientSchema = new mongoose.Schema({
     unique: true,
     match: [/^\d+$/, 'id  should contain only numbers.']
   },
-  data: {
+  chanel1: {
+    type: Array,
+    required: true,
+    minlength: 6
+  },
+
+  chanel2: {
     type: Array,
     required: true,
     minlength: 6

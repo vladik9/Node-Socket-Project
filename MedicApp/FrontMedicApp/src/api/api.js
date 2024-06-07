@@ -19,7 +19,6 @@ export const logoutApi = (token) => {
 //initial call on page load
 //id of the medic and medic token
 export const searchByMedicId = (id, token) => {
-
   return axios.get(`/api/medic${urlEnum.search}/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -31,6 +30,16 @@ export const searchByMedicId = (id, token) => {
 //id of the patient and medic token
 export const searchByPatientId = (id, token) => {
   return axios.get(`/api/patient${urlEnum.search}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
+
+
+export const searchNewPatientByPatientId = (medicId, patientId, token) => {
+  console.log(medicId, patientId);
+  return axios.get(`/api/patient${urlEnum.search}${urlEnum.new}/${medicId}/${patientId}`, {
     headers: {
       Authorization: `Bearer ${token}`
     }

@@ -1,4 +1,3 @@
-// models/Medic.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -18,14 +17,20 @@ const medicSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
+  },
+  assignedPatients: {
+    type: Array,
+    required: false
   }
 }, {
-  timestamps: true, toJSON: {
+  timestamps: true,
+  toJSON: {
     transform: function (doc, ret) {
       delete ret.password;
       return ret;
     }
-  }, toObject: {
+  },
+  toObject: {
     transform: function (doc, ret) {
       delete ret.password;
       return ret;

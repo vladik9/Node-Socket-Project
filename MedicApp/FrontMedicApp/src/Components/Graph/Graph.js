@@ -91,7 +91,7 @@ export default function Hero() {
                 : `0 0 24px 12px ${alpha('#033363', 0.2)}`,
           })}
         >
-          <Chart /> {/* Injecting Chart component here */}
+          <Chart />
         </Box>
       </Container>
     </Box>

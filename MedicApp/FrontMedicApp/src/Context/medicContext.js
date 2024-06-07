@@ -1,5 +1,11 @@
 import React, { createContext, useState } from 'react';
-import { loginApi, logoutApi, searchByMedicId, searchByPatientId } from '../api/api';
+import {
+  loginApi,
+  logoutApi,
+  searchByMedicId,
+  searchByPatientId,
+  searchNewPatientByPatientId
+} from '../api/api';
 // Create a Context
 
 export const MedicContext = createContext({
@@ -12,7 +18,8 @@ export const MedicContext = createContext({
   handleLogin: (loginInfo) => { },
   handleLogout: () => { },
   handleSearchByMedicId: (id) => { },
-  handleSearchByPatientId: (id) => { },
+  handleSearchNewPatient: (id) => { },
+  handleSearchByNewPatientId: (id) => { },
   //this is not used just for admin to add new medics
   handleRegister: () => { }
 });
@@ -66,15 +73,8 @@ export const MedicContextProvider = (props) => {
     const token = currentMedic.token;
 
     try {
-      // setPatientList([
-      //   12345678,
-      //   87654321,
-      //   23456789,
-      //   98765432,
-      //   34567890,
-      // ]);
-      const patientList = await searchByMedicId(id, token);
-      const result = patientList?.data?.listOfPatients || [];
+      const assignedPatients = await searchByMedicId(id, token);
+      const result = assignedPatients?.data || [];
       setPatientList(result);
     } catch (error) {
       console.log(error);
@@ -84,7 +84,7 @@ export const MedicContextProvider = (props) => {
     const token = currentMedic.token;
     try {
       const patientData = await searchByPatientId(id, token);
-      const result = patientData?.data?.patientData || [];
+      const result = patientData?.data?.existingPatient.dataSeriesOne || [];
 
       setCurrentPatient(result);
     } catch (error) {
@@ -92,8 +92,16 @@ export const MedicContextProvider = (props) => {
     };
   };
 
-
-
+  const handleSearchNewPatient = async (patientId) => {
+    const token = currentMedic.token;
+    const medicId = currentMedic.medic.medicId;
+    try {
+      const newPatientInfo = await searchNewPatientByPatientId(medicId, patientId, token);
+      console.log(newPatientInfo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleRegister = () => { };
 
@@ -109,6 +117,7 @@ export const MedicContextProvider = (props) => {
       handleLogout: handleLogout,
       handleSearchByMedicId: handleSearchByMedicId,
       handleSearchByPatientId: handleSearchByPatientId,
+      handleSearchNewPatient: handleSearchNewPatient,
       //this is not used just for admin to add new medics
       handleRegister: handleRegister
     }}>

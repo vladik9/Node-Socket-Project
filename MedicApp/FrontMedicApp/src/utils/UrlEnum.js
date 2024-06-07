@@ -4,4 +4,7 @@ export const urlEnum = {
   register: '/register',
   home: '/',
   search: '/search',
+  patient: '/patient',
+  new: '/new',
+
 };

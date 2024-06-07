@@ -6,4 +6,14 @@
 - [ ] ##############
 - [ ] Add medic option to search and patient to view list
 - [ ] Make Patient search
-- [ ] Add input to search and buton to search
+- [ ] # Add input to search and buton to search
+- [x] Add one medic logic to many patients
+- [x] Create/Make register endpoint
+- [x] Create/Make login endpoint
+- [x] Create/Make logout working
+- [x] Create get request using middleware to get from database list of patient and id's of their info
+- [x] Integrate it in Front-end and make login/ register and and logout working
+- [x] check if need to make model and controller for patient info
+- [ ] Add pagination to graps as now is to many data to display on same graph
+
+> > > > > > > feature

@@ -10,8 +10,8 @@ app.use(express.json());
 
 // Registration endpoint
 router.post('/register', async (req, res) => {
-  const { medicId, password, name, patientList } = req.body;
-  console.log("in register");
+  const { medicId, password, name, assignedPatients } = req.body;
+  console.log("create a medic");
   try {
     // Check if the medic already exists
     const existingMedic = await Medic.findOne({ medicId });
@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
 
     // Create a new medic
     const newMedic = new Medic({
-      medicId, password, name, patientList // This will be hashed by the pre-save hook in the Medic model
+      medicId, password, name, assignedPatients // This will be hashed by the pre-save hook in the Medic model
     });
 
     // Save the medic to the database
@@ -45,8 +45,6 @@ router.post('/login', async (req, res) => {
 
   try {
     const medic = await Medic.findOne({ medicId });
-
-
     if (!medic) {
       return res.status(400).json({ message: 'Invalid login info' });
     }
@@ -70,19 +68,13 @@ router.post('/logout', authMiddleware, (req, res) => {
 });
 
 router.get('/search/:id', authMiddleware, async (req, res) => {
-  const listOfPatients = [
-    12345678,
-    87654321,
-    23456789,
-    98765432,
-    34567890,
-  ];
   try {
     const medic = await Medic.findOne({ medicId: req.params.id });
     if (!medic) {
       return res.status(404).json({ message: 'Medic not found' });
     }
-    res.send({ listOfPatients });
+    const assignedPatients = medic.assignedPatients || [];
+    res.send(assignedPatients);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }

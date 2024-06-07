@@ -1,4 +1,3 @@
-// models/Medic.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -19,24 +18,25 @@ const medicSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  patientList: {
-    type: [String],
-    default: []
+  assignedPatients: {
+    type: Array,
+    required: false
   }
-},
-  {
-    timestamps: true, toJSON: {
-      transform: function (doc, ret) {
-        delete ret.password;
-        return ret;
-      }
-    }, toObject: {
-      transform: function (doc, ret) {
-        delete ret.password;
-        return ret;
-      }
+}, {
+  timestamps: true,
+  toJSON: {
+    transform: function (doc, ret) {
+      delete ret.password;
+      return ret;
     }
-  });
+  },
+  toObject: {
+    transform: function (doc, ret) {
+      delete ret.password;
+      return ret;
+    }
+  }
+});
 
 // Hash the password before saving the medic model
 medicSchema.pre('save', async function (next) {

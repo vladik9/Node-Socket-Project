@@ -2,7 +2,6 @@ import *  as React from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { MedicContext } from '../../Context/medicContext';
 import { useContext, useEffect, useState } from 'react';
@@ -32,47 +31,46 @@ export default function PatientSelect() {
   };
 
   return (
-    <FormControl fullWidth>
-      <Box>
-        <Grid container spacing={1} direction="row" alignItems="center">
-          <Grid item xs={12} md={5} lg={5}>
-            <InputLabel id="demo-simple-select-label">Patient id:</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="patientId"
-              value={patientId}
-              label="Patient id:"
-              onChange={handleDropSearch}
-              fullWidth
-            >
-              {patientList.map((id) => (
-                <MenuItem key={id} value={id}>
-                  {id}
-                </MenuItem>
-              ))}
-            </Select>
-          </Grid>
-          <Grid item xs={12} md={6} lg={6}>
-            <TextField
-              id="outlined-basic"
-              hiddenLabel
-              size="small"
-              value={newPatientId}
-              variant="outlined"
-              aria-label="Patient id:"
-              placeholder="Patient id:"
-              onChange={(e) =>
-                setNewPatientId(e.target.value)
-              }
-            />
-          </Grid>
-          <Grid item xs={12} md={4} lg={4}>
-            <Button variant="contained" color="primary" onClick={handleByNewPatientSearch} >
-              Search patient
-            </Button>
-          </Grid>
+    <>
+      <Grid container spacing={1} direction="row" alignItems="center">
+        <Grid item xs={12} md={5} lg={5}>
+          <InputLabel id="demo-simple-select-label">Patient id:</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="patientId"
+            value={patientId}
+            label="Patient id:"
+            onChange={handleDropSearch}
+            fullWidth
+          >
+            {patientList.map((id) => (
+              <MenuItem key={id} value={id}>
+                {id}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
-      </Box>
-    </FormControl>
+        <Grid item xs={12} md={6} lg={6}>
+          <TextField
+            id="outlined-basic"
+            hiddenLabel
+            size="small"
+            value={newPatientId}
+            variant="outlined"
+            aria-label="Patient id:"
+            placeholder="Patient id:"
+            onChange={(e) =>
+              setNewPatientId(e.target.value)
+            }
+          />
+        </Grid>
+        <Grid item xs={12} md={4} lg={4}>
+          <Button variant="contained" color="primary" onClick={handleByNewPatientSearch} >
+            Search a new patient
+          </Button>
+        </Grid>
+      </Grid>
+    </>
+
   );
 };

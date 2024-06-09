@@ -25,7 +25,6 @@ router.post('/register', async (req, res) => {
 
 //search for new patients
 router.get('/search/:id', authMiddleware, async (req, res) => {
-  console.log("MyGet");
   const patientId = req.params.id;
   try {
     const existingPatient = await Patient.findOne({ patientId: patientId });
@@ -54,7 +53,7 @@ router.get('/search/new/:medicId/:patientId', authMiddleware, async (req, res) =
       return res.status(404).json({ message: 'Medic not found' });
     }
     medic.assignedPatients.push(patientId);
-    console.log(medic);
+
     await medic.save();
     res.send({ message: 'Patient added to medic list' });
   } catch (error) {

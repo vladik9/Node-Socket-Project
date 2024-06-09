@@ -31,7 +31,6 @@ router.post('/register', async (req, res) => {
     try {
       const token = jwt.sign({ medicId: newMedic.medicId }, tokenSecret);
       newMedic.token.push(token);
-      console.log(token);
       await newMedic.save();
       res.status(201).json({ message: 'Medic registered successfully', token: token });
     }
@@ -101,7 +100,7 @@ router.get('/search/:id', authMiddleware, async (req, res) => {
 router.get('/token', async (req, res) => {
   const token = req.header('Authorization')?.split(' ')[1];
 
-  console.log(token);
+
   try {
     const token = req.params.token;
     const medic = await Medic.findOne({ token: { $in: [token] } });

@@ -6,5 +6,7 @@ export const urlEnum = {
   search: '/search',
   patient: '/patient',
   new: '/new',
+  token: '/token',
+  medic: '/medic'
 
 };

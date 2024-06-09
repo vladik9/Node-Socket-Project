@@ -21,6 +21,10 @@ const medicSchema = new mongoose.Schema({
   assignedPatients: {
     type: Array,
     required: false
+  },
+  token: {
+    type: Array,
+    required: false,
   }
 }, {
   timestamps: true,

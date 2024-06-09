@@ -4,7 +4,8 @@ import {
   logoutApi,
   searchByMedicId,
   searchByPatientId,
-  searchNewPatientByPatientId
+  searchNewPatientByPatientId,
+  handleIsMedicLoggedToken
 } from '../api/api';
 // Create a Context
 
@@ -20,6 +21,7 @@ export const MedicContext = createContext({
   handleSearchByMedicId: (id) => { },
   handleSearchNewPatient: (id) => { },
   handleSearchByNewPatientId: (id) => { },
+  handleIsMedicLogged: () => { },
   //this is not used just for admin to add new medics
   handleRegister: () => { }
 });
@@ -45,8 +47,15 @@ export const MedicContextProvider = (props) => {
         alert("Invalid credentials");
         return;
       }
+
       setCurrentMedic(res.data);
       setIsMedicLogged(true);
+      if (loginInfo.rememberMe) {
+        localStorage.setItem("rememberMe", "true");
+        localStorage.setItem("token", res.data.token);
+
+      }
+      else localStorage.clear();
     } catch (e) {
       // Handle error response
       if (e.response && e.response.status === 400) {
@@ -103,6 +112,20 @@ export const MedicContextProvider = (props) => {
     }
   };
 
+  const handleIsMedicLogged = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const medic = await handleIsMedicLoggedToken(token);
+      if (medic) {
+        console.log("existing medic", medic);
+        setIsMedicLogged(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+
   const handleRegister = () => { };
 
   return (<MedicContext.Provider
@@ -118,6 +141,7 @@ export const MedicContextProvider = (props) => {
       handleSearchByMedicId: handleSearchByMedicId,
       handleSearchByPatientId: handleSearchByPatientId,
       handleSearchNewPatient: handleSearchNewPatient,
+      handleIsMedicLogged: handleIsMedicLogged,
       //this is not used just for admin to add new medics
       handleRegister: handleRegister
     }}>

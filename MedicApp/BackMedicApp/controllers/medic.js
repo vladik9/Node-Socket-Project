@@ -11,10 +11,10 @@ app.use(express.json());
 // Registration endpoint
 router.post('/register', async (req, res) => {
   const { medicId, password, name, assignedPatients } = req.body;
-  console.log("create a medic");
   try {
     // Check if the medic already exists
     const existingMedic = await Medic.findOne({ medicId });
+
     if (existingMedic) {
       return res.status(400).json({ message: 'Medic already exists' });
     }
@@ -26,9 +26,13 @@ router.post('/register', async (req, res) => {
 
     // Save the medic to the database
     await newMedic.save();
+
     // Respond with success message
     try {
       const token = jwt.sign({ medicId: newMedic.medicId }, tokenSecret);
+      newMedic.token.push(token);
+      console.log(token);
+      await newMedic.save();
       res.status(201).json({ message: 'Medic registered successfully', token: token });
     }
     catch (err) {
@@ -56,6 +60,8 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign({ medicId: medic.medicId }, tokenSecret);
+    medic.token.push(token);
+    await medic.save();
     res.json({ token, medic: medic });
 
   } catch (error) {
@@ -63,7 +69,19 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/logout', authMiddleware, (req, res) => {
+router.post('/logout', authMiddleware, async (req, res) => {
+  const medicId = req.medic.medicId;
+  try {
+    const medic = await Medic.findOne({ medicId });
+    if (medic) {
+      medic.token = [];
+      await medic.save();
+    }
+  }
+  catch (error) {
+    console.log(error);
+    res.send(`Hello ${req.medic.medicId}, you have not been log out.`);
+  }
   res.send(`Hello ${req.medic.medicId}, you have been log out.`);
 });
 
@@ -75,6 +93,23 @@ router.get('/search/:id', authMiddleware, async (req, res) => {
     }
     const assignedPatients = medic.assignedPatients || [];
     res.send(assignedPatients);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/token', async (req, res) => {
+  const token = req.header('Authorization')?.split(' ')[1];
+
+  console.log(token);
+  try {
+    const token = req.params.token;
+    const medic = await Medic.findOne({ token: { $in: [token] } });
+    console.log("Medic i find:", medic);
+    if (!medic) {
+      return res.status(404).json({ message: 'Medic not found' });
+    }
+    res.send(medic);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }

@@ -45,3 +45,11 @@ export const searchNewPatientByPatientId = (medicId, patientId, token) => {
     }
   });
 };
+
+export const handleIsMedicLoggedToken = (token) => {
+  return axios.get(`/api${urlEnum.medic}${urlEnum.token}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};

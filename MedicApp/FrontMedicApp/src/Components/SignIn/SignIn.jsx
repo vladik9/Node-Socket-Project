@@ -11,12 +11,21 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import * as React from 'react';
+// import { useEffect } from 'react';
 import { MedicContext } from '../../Context/medicContext';
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
   const medicContext = React.useContext(MedicContext);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     medicContext.handleIsMedicLogged();
+  //   }
+
+  // },);
 
   const handleSubmit = (event) => {
     event.preventDefault();

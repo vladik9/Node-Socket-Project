@@ -93,7 +93,7 @@ export const MedicContextProvider = (props) => {
     const token = currentMedic.token;
     try {
       const patientData = await searchByPatientId(id, token);
-      const result = patientData?.data?.existingPatient.dataSeriesOne || [];
+      const result = patientData?.data?.existingPatient || [];
 
       setCurrentPatient(result);
     } catch (error) {

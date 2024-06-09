@@ -34,6 +34,7 @@ export default function PatientSelect() {
           id="patientId"
           value={patientId}
           label="Patient id:"
+          defaultValue={0}
           onChange={handleDropSearch}
         >
           {patientList.map((id) => (

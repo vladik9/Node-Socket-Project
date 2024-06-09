@@ -1,28 +1,19 @@
 #include <WiFi.h>
 #include <WebSocketClient.h>
 
-//your WIFI ID
+// Your WiFi credentials
 const char* ssid = "We_are_home_now!";
-//your WIFI password
 const char* password = "Forfun96_!";
 
 char path[] = "/";
-//this is IP address of local machine (server sicket),
-// got it for IPv4 with CMD ipconfig or use logs on server
-char host[] = "192.168.0.213:5000";
-//new instance of client socket
+char host[] = "192.168.0.213:5000"; // Local machine IP and port
+
 WebSocketClient webSocketClient;
-
-// Use WiFiClient class to create TCP connections
 WiFiClient client;
+int vo = analogRead(26);
+int voo = analogRead(27);
 
-//this will init all processes and services
-void setup() {
-  Serial.begin(9600);
-  delay(10);
-
-  // We start by connecting to a WiFi network
-
+void initWiFi() {
   Serial.println();
   Serial.println();
   Serial.print("Connecting to: ");
@@ -39,65 +30,96 @@ void setup() {
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
-
-  delay(1000);
-
-
-  // Connect to the websocket server
-  if (client.connect("192.168.0.213", 5000)) {
-    Serial.println("Connected");
-  } else {
-    Serial.println("Connection failed.");
-    while (1) {
-      // Hang on failure
-    }
-  }
-
-  // Handshake with the server
-  webSocketClient.path = path;
-  webSocketClient.host = host;
-  if (webSocketClient.handshake(client)) {
-    Serial.println("Handshake successful");
-  } else {
-    Serial.println("Handshake failed.");
-    while (1) {
-      // Hang on failure 
-    }
-  }
 }
 
-//this will loop all services and will continuously send data to server
-void loop() {
-  String data;
- 
+bool connectWebSocket() {
+  // Connect to the WebSocket server
+  if (client.connect("192.168.0.213", 5000)) {
+    Serial.println("WebSocket connected");
 
+    // Handshake with the server
+    webSocketClient.path = path;
+    webSocketClient.host = host;
+
+    if (webSocketClient.handshake(client)) {
+      Serial.println("Handshake successful");
+      return true;
+    } else {
+      Serial.println("Handshake failed.");
+    }
+  } else {
+    Serial.println("WebSocket connection failed.");
+  }
   
-  if (client.connected()) {
-  //   //here we get back data from server, we can disable this
-  //   webSocketClient.getData(data);
-  //   if (data.length() > 0) {
-  //     Serial.println("################:DATA RECEIVED:##############");
-  //     Serial.println(data);
-  //     Serial.println("##########################################");
-  //   }
+  return false;
+}
 
-    //this is message we can send to server,
- 
-    // as we now saving to many data
-    data = "arduino esp32 message";
+int* initReadSensorData() {
+  // Print the read values
+  Serial.println(vo);
+  Serial.println(voo);
+
+  // Create a static array to hold the values
+  static int result[2];
+  result[0] = vo;
+  result[1] = voo;
+
+  return result;
+}
+
+void sendSocketData(String data) {
+  if (client.connected()) {
+    // String data = "arduino esp32 message";
     Serial.println("################:DATA SEND:#################");
     Serial.println(data);
     Serial.println("##########################################");
 
     webSocketClient.sendData(data);
-
   } else {
     Serial.println("Client disconnected.");
     while (1) {
-      // Hang on disconnect.
+      // Hang on disconnect to prevent further operations
+      delay(1000); // Adding a delay to prevent watchdog reset
     }
   }
-
-  // wait to fully let the client disconnect
+  
+  // Wait to fully let the client process the data
   delay(1000);
+}
+
+void setup() {
+  Serial.begin(115200);
+  initWiFi();
+
+  if (!connectWebSocket()) {
+    // If the initial connection fails, retry
+    while (!connectWebSocket()) {
+      Serial.println("Retrying WebSocket connection...");
+      delay(5000); // Wait before retrying
+    }
+  }
+}
+
+void loop() {
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("Lost WiFi connection. Reconnecting...");
+    initWiFi();
+  }
+
+  if (!client.connected()) {
+    Serial.println("Lost WebSocket connection. Reconnecting...");
+    if (!connectWebSocket()) {
+      // Retry WebSocket connection
+      while (!connectWebSocket()) {
+        Serial.println("Retrying WebSocket connection...");
+        delay(5000); // Wait before retrying
+      }
+    }
+  } else {
+    int* sensorData = initReadSensorData();
+    String data = String(sensorData[0]) + "," + String(sensorData[1]);
+    sendSocketData(data);
+     
+  // delay(75); // Delay to control data sending frequency
+}
 }

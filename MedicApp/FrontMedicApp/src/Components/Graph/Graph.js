@@ -63,13 +63,12 @@ export default function Hero() {
             <PatientSelect />
           </Stack>
         </Stack>
-
         <Box
           id="image"
           sx={(theme) => ({
             mt: { xs: 8, sm: 10 },
             alignSelf: 'center',
-            height: { xs: 200, sm: 400 },
+            height: 'auto',
             width: '100%',
             display: 'flex', // Ensures the box uses flexbox
             alignItems: 'center', // Centers content vertically

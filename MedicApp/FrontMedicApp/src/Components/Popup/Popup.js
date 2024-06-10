@@ -2,62 +2,26 @@ import * as React from 'react';
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { styled } from '@mui/system';
 import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { MedicContext } from '../../Context/medicContext';
-import { useContext, useState } from 'react';
-import styles from "./Popup.module.css";
-// import Button from '@mui/material/Button';
-export default function SimplePopup({ action, patientId }) {
+import { useState } from 'react';
+export default function Popup({ action, patientId }) {
   const [anchor, setAnchor] = React.useState(null);
-  const [newPatientId, setNewPatientId] = useState("");
-  const { handleSearchNewPatient } = useContext(MedicContext);
 
   const handleClick = (event) => {
     setAnchor(anchor ? null : event.currentTarget);
 
   };
-  const handleByNewPatientSearch = () => {
-    if (newPatientId != null && newPatientId !== "") handleSearchNewPatient(newPatientId);
-    setAnchor(null);
-  };
+
 
   const open = Boolean(anchor);
   const id = open ? 'simple-popup' : undefined;
 
   return (
     <div>
-      <MenuItem variant="contained" color="primary" aria-describedby={id} onClick={handleClick}>
-        <Typography variant="body2" color="text.primary">
-          Search
-        </Typography>
-
+      <MenuItem variant="contained" color="primary" aria-describedby={id}>
       </MenuItem>
       <BasePopup id={id} open={open} anchor={anchor}>
         <PopupBody>
-
-          <TextField
-            id="outlined-basic"
-            hiddenLabel
-            size="small"
-            value={newPatientId}
-            variant="outlined"
-            aria-label="new patient id:"
-            placeholder="new patient id:"
-            onChange={(e) =>
-              setNewPatientId(e.target.value)
-            }
-          />
-          <Button color="primary"
-            variant="contained"
-            size="small"
-            className={styles.container}
-            onClick={handleByNewPatientSearch}
-          >
-            Search
-          </Button>
-
+          <div>Some Mess</div>
         </PopupBody>
       </BasePopup>
     </div>
@@ -78,7 +42,6 @@ const grey = {
   800: '#303740',
   900: '#1C2025',
 };
-
 
 
 const PopupBody = styled('div')(

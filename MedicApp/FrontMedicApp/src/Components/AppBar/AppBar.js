@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import ToggleColorMode from '../ToggleColorMode/ToggleColorMode';
 import { useContext } from 'react';
 import { MedicContext } from '../../Context/medicContext';
-import Popup from "../Popup/Popup";
+import SearchModal from "../Popup/SearchModal";
 const logoStyle = {
   width: '140px',
   height: 'auto',
@@ -107,7 +107,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                     About
                   </Typography>
                 </MenuItem>
-                <Popup />
+                <SearchModal />
               </Box>
             </Box>
             <Box>

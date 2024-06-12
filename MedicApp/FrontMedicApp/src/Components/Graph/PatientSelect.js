@@ -1,30 +1,29 @@
-import *  as React from 'react';
 import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { MedicContext } from '../../Context/medicContext';
+import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { MedicContext } from '../../Context/medicContext';
 
 export default function PatientSelect() {
   const [patientId, setPatientId] = useState("");
 
-  const { handleSearchByMedicId, handleSearchByPatientId, handleSearchNewPatient, patientList, currentMedic } = useContext(MedicContext);
+  const { handleSearchByMedicId, handleSearchByPatientId, patientList, currentMedic, requestNewData, setRequestNewData } = useContext(MedicContext);
 
-  // ToDo: this will make a call in db to get all users info assigned to same medic
   useEffect(() => {
-    handleSearchByMedicId(currentMedic.medic.medicId);
-  }, []);
-
+    if (requestNewData) {
+      handleSearchByMedicId(currentMedic.medic.medicId);
+      setRequestNewData(false);
+    }
+  }, [requestNewData]);
 
   const handleDropSearch = (event) => {
     const id = event.target.value;
     setPatientId(event.target.value);
     handleSearchByPatientId(id);
   };
-
-
   return (
     <Box sx={{ minWidth: 250 }}>
       <FormControl fullWidth>

@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import ToggleColorMode from '../ToggleColorMode/ToggleColorMode';
 import { useContext } from 'react';
 import { MedicContext } from '../../Context/medicContext';
-import SearchModal from "../Popup/SearchModal";
+import SearchModal from "../SearchModal/SearchModal";
 const logoStyle = {
   width: '140px',
   height: 'auto',

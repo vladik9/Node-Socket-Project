@@ -1,11 +1,11 @@
 import React, { createContext, useState } from 'react';
 import {
+  handleIsMedicLoggedToken,
   loginApi,
   logoutApi,
   searchByMedicId,
   searchByPatientId,
-  searchNewPatientByPatientId,
-  handleIsMedicLoggedToken
+  searchNewPatientByPatientId
 } from '../api/api';
 // Create a Context
 
@@ -15,6 +15,7 @@ export const MedicContext = createContext({
   currentMedic: "",
   patientList: [],
   currentPatient: [],
+  requestNewData: "",
   handleIsRememberMeChecked: () => { },
   handleLogin: (loginInfo) => { },
   handleLogout: () => { },
@@ -34,9 +35,11 @@ export const MedicContextProvider = (props) => {
   const [currentMedic, setCurrentMedic] = useState(null);
   const [patientList, setPatientList] = useState([]);
   const [currentPatient, setCurrentPatient] = useState([]);
+  const [requestNewData, setRequestNewData] = useState(true);
   const handleIsRememberMeChecked = () => {
     setIsRememberMeChecked(true);
   };
+
 
   const handleLogin = async (loginInfo) => {
     try {
@@ -106,7 +109,8 @@ export const MedicContextProvider = (props) => {
     const medicId = currentMedic.medic.medicId;
     try {
       const newPatientInfo = await searchNewPatientByPatientId(medicId, patientId, token);
-      console.log(newPatientInfo);
+      setRequestNewData(true);
+      return newPatientInfo;
     } catch (error) {
       console.log(error);
     }
@@ -130,6 +134,7 @@ export const MedicContextProvider = (props) => {
 
   return (<MedicContext.Provider
     value={{
+
       isMedicLogged: isMedicLogged,
       isRememberMeChecked: isRememberMeChecked,
       currentMedic: currentMedic,
@@ -142,8 +147,11 @@ export const MedicContextProvider = (props) => {
       handleSearchByPatientId: handleSearchByPatientId,
       handleSearchNewPatient: handleSearchNewPatient,
       handleIsMedicLogged: handleIsMedicLogged,
+      requestNewData: requestNewData,
+      setRequestNewData: setRequestNewData,
       //this is not used just for admin to add new medics
-      handleRegister: handleRegister
+      handleRegister: handleRegister,
+
     }}>
     {props.children}
   </MedicContext.Provider>

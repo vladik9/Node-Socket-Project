@@ -97,14 +97,11 @@ router.get('/search/:id', authMiddleware, async (req, res) => {
   }
 });
 
-router.get('/token', async (req, res) => {
-  const token = req.header('Authorization')?.split(' ')[1];
-
-
+router.get('/token', authMiddleware, async (req, res) => {
+  console.log(req.medic);
+  const medicId = req.medic.medicId;
   try {
-    const token = req.params.token;
-    const medic = await Medic.findOne({ token: { $in: [token] } });
-    console.log("Medic i find:", medic);
+    const medic = await Medic.findOne({ medicId });
     if (!medic) {
       return res.status(404).json({ message: 'Medic not found' });
     }

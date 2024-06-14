@@ -8,10 +8,43 @@ import Divider from '@mui/material/Divider';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useContext, useEffect } from 'react';
+import { MedicContext } from '../../Context/medicContext';
 import Highlights from '../About/About';
 import AppAppBar from '../AppBar/AppBar';
 import Graph from '../Graph/Graph';
 import getLPTheme from '../theme/getLPTheme';
+export default function LandingPage() {
+  const [mode, setMode] = React.useState('light');
+  const [showCustomTheme, setShowCustomTheme] = React.useState(true);
+  const LPtheme = createTheme(getLPTheme(mode));
+
+  const toggleColorMode = () => {
+    setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+  const medicContext = useContext(MedicContext);
+
+  useEffect(() => {
+    const rememberMe = localStorage.getItem("rememberMe");
+    const token = localStorage.getItem("token");
+    if (token && rememberMe) {
+      medicContext.handleIsMedicLogged();
+    }
+
+  }, []);
+
+  return (
+    <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
+      <CssBaseline />
+      <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
+      <Graph />
+      <Box sx={{ bgcolor: 'background.default' }}>
+        <Divider />
+        <Highlights />
+      </Box>
+    </ThemeProvider>
+  );
+}
 
 const defaultTheme = createTheme({});
 
@@ -56,26 +89,3 @@ ToggleCustomTheme.propTypes = {
   }).isRequired,
   toggleCustomTheme: PropTypes.func.isRequired,
 };
-
-export default function LandingPage() {
-  const [mode, setMode] = React.useState('light');
-  const [showCustomTheme, setShowCustomTheme] = React.useState(true);
-  const LPtheme = createTheme(getLPTheme(mode));
-
-  const toggleColorMode = () => {
-    setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-
-  return (
-    <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
-      <CssBaseline />
-      <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
-      <Graph />
-      <Box sx={{ bgcolor: 'background.default' }}>
-        <Divider />
-        <Highlights />
-      </Box>
-    </ThemeProvider>
-  );
-}

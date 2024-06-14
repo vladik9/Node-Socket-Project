@@ -1,3 +1,4 @@
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -9,23 +10,14 @@ import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import * as React from 'react';
 // import { useEffect } from 'react';
 import { MedicContext } from '../../Context/medicContext';
-
 const defaultTheme = createTheme();
 
 export default function SignIn() {
   const medicContext = React.useContext(MedicContext);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     medicContext.handleIsMedicLogged();
-  //   }
-
-  // },);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -89,9 +81,10 @@ export default function SignIn() {
               id="password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary"
-                id='isCheckedIn' name='remember' defaultChecked={false} />}
-              label="Remember me"
+              control={<Checkbox value='remember' color="primary"
+                id='isCheckedIn' name='remember' />}
+              label="Remember me" checked={medicContext.isRememberMeChecked}
+              onClick={medicContext.handleIsRememberMeChecked}
             />
             <Button
               fullWidth

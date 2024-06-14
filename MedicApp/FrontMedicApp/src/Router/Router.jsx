@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import MainPage from '../Components/MainPage/MainPage';
 import SignIn from '../Components/SignIn/SignIn';
 import { MedicContext } from '../Context/medicContext';

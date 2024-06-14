@@ -7,7 +7,7 @@ import {
   searchByPatientId,
   searchNewPatientByPatientId
 } from '../api/api';
-// Create a Context
+
 
 export const MedicContext = createContext({
   isMedicLogged: "",
@@ -31,20 +31,20 @@ export const MedicContextProvider = (props) => {
 
   //all function goes here
   const [isMedicLogged, setIsMedicLogged] = useState(false);
-  const [isRememberMeChecked, setIsRememberMeChecked] = useState(false);
+  const [isRememberMeChecked, setIsRememberMeChecked] =
+    useState(localStorage.getItem("rememberMe") ? true : false);
   const [currentMedic, setCurrentMedic] = useState(null);
   const [patientList, setPatientList] = useState([]);
   const [currentPatient, setCurrentPatient] = useState([]);
   const [requestNewData, setRequestNewData] = useState(true);
   const handleIsRememberMeChecked = () => {
-    setIsRememberMeChecked(true);
+    setIsRememberMeChecked((prev) => !prev);
   };
 
 
   const handleLogin = async (loginInfo) => {
     try {
       const res = await loginApi(loginInfo);
-
       // Check if the login response indicates invalid credentials
       if (!res.data || !res.data.medic.medicId) {
         alert("Invalid credentials");
@@ -121,7 +121,6 @@ export const MedicContextProvider = (props) => {
     try {
       const medic = await handleIsMedicLoggedToken(token);
       if (medic) {
-        console.log("existing medic", medic);
         setIsMedicLogged(true);
       }
     } catch (error) {
@@ -131,7 +130,6 @@ export const MedicContextProvider = (props) => {
   };
 
   const handleRegister = () => { };
-
   return (<MedicContext.Provider
     value={{
 

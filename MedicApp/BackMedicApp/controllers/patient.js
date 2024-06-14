@@ -52,6 +52,10 @@ router.get('/search/new/:medicId/:patientId', authMiddleware, async (req, res) =
     if (!medic) {
       return res.status(404).json({ message: 'Medic not found' });
     }
+    if (medic.assignedPatients.includes(patientId)) {
+      return res.status(400).json({ message: 'Patient already assigned' });
+    }
+
     medic.assignedPatients.push(patientId);
 
     await medic.save();

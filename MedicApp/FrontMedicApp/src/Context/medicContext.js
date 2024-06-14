@@ -112,7 +112,7 @@ export const MedicContextProvider = (props) => {
       setRequestNewData(true);
       return newPatientInfo;
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
 

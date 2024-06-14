@@ -20,7 +20,9 @@ const medicSchema = new mongoose.Schema({
   },
   assignedPatients: {
     type: Array,
-    required: false
+    required: false,
+    unique: true,
+
   },
   token: {
     type: Array,

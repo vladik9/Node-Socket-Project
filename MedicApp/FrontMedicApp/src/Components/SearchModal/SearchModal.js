@@ -29,17 +29,20 @@ export default function SearchModal({ action, patientId }) {
     if (newPatientId && newPatientId !== '') {
       try {
         const response = await handleSearchNewPatient(newPatientId);
-        setResponseMessage(response.data.message);
+        setResponseMessage(response.response.data.message);
+        setNewPatientId('');
       } catch (error) {
-        console.log(error);
-        setResponseMessage("Patient not found, try again");
+        setResponseMessage(error.message);
+        setNewPatientId('');
+
       }
-      setTimeout(() => {
-        setSearchAnchor(null);
-        handleShowResponseModal({ currentTarget: searchAnchor });
-      }, 1000);
     }
+    setTimeout(() => {
+      setSearchAnchor(null);
+      handleShowResponseModal({ currentTarget: searchAnchor });
+    }, 1000);
   };
+
 
   const searchOpen = Boolean(searchAnchor);
   const searchId = searchOpen ? 'simple-popup' : undefined;

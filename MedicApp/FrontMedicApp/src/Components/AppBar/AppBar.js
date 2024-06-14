@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-import *   as React from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -10,10 +8,12 @@ import Drawer from '@mui/material/Drawer';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import ToggleColorMode from '../ToggleColorMode/ToggleColorMode';
+import PropTypes from 'prop-types';
+import * as React from 'react';
 import { useContext } from 'react';
 import { MedicContext } from '../../Context/medicContext';
 import SearchModal from "../SearchModal/SearchModal";
+import ToggleColorMode from '../ToggleColorMode/ToggleColorMode';
 const logoStyle = {
   width: '140px',
   height: 'auto',

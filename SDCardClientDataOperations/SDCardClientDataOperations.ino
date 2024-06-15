@@ -14,9 +14,9 @@ refactor this to work
 unsigned long lastReadPosition = 0;
 
 //your WIFI ID
-const char* ssid = "We_are_home_now!";
+const char* ssid = "****!";
 //your WIFI password
-const char* password = "Forfun96_!";
+const char* password = "***!";
 
 // this block is to simulate multithreading
 unsigned long previousReadInterval = 0;

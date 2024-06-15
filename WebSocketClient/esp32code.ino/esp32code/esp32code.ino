@@ -2,8 +2,8 @@
 #include <WebSocketClient.h>
 
 // Your WiFi credentials
-const char* ssid = "We_are_home_now!";
-const char* password = "Forfun96_!";
+const char* ssid = "****!";
+const char* password = "*****!";
 
 char path[] = "/";
 char host[] = "192.168.0.213:5000"; // Local machine IP and port

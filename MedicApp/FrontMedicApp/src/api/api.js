@@ -38,7 +38,6 @@ export const searchByPatientId = (id, token) => {
 
 
 export const searchNewPatientByPatientId = (medicId, patientId, token) => {
-  console.log(medicId, patientId);
   return axios.get(`/api/patient${urlEnum.search}${urlEnum.new}/${medicId}/${patientId}`, {
     headers: {
       Authorization: `Bearer ${token}`

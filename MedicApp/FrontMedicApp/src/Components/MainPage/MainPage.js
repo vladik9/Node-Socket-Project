@@ -15,7 +15,7 @@ import AppAppBar from '../AppBar/AppBar';
 import Graph from '../Graph/Graph';
 import getLPTheme from '../theme/getLPTheme';
 export default function LandingPage() {
-  const [mode, setMode] = React.useState('light');
+  const [mode, setMode] = React.useState('dark');
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
   const LPtheme = createTheme(getLPTheme(mode));
 

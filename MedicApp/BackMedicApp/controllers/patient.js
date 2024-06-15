@@ -59,7 +59,7 @@ router.get('/search/new/:medicId/:patientId', authMiddleware, async (req, res) =
     medic.assignedPatients.push(patientId);
 
     await medic.save();
-    res.send({ message: 'Patient added to medic list' });
+    res.status(200).json({ message: 'Patient added to medic list' });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }

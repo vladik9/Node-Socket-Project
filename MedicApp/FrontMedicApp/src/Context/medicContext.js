@@ -58,16 +58,13 @@ export const MedicContextProvider = (props) => {
         localStorage.setItem("token", res.data.token);
 
       }
-      else localStorage.clear();
     } catch (e) {
       // Handle error response
       if (e.response && e.response.status === 400) {
         alert("Invalid credentials");
         setIsMedicLogged(false);
       } else {
-        console.log("Login error:", e);
         setIsMedicLogged(false);
-
         alert("An error occurred during login. Please try again.");
       }
     }
@@ -79,6 +76,11 @@ export const MedicContextProvider = (props) => {
     try {
       await logoutApi(token);
     } catch (error) { console.log(error); }
+    if (localStorage.getItem("rememberMe")) {
+      return;
+    }
+    localStorage.removeItem("token");
+    localStorage.removeItem("rememberMe");
 
   };
   const handleSearchByMedicId = async (id) => {
@@ -112,7 +114,7 @@ export const MedicContextProvider = (props) => {
       setRequestNewData(true);
       return newPatientInfo;
     } catch (error) {
-      return error;
+      return error.response;
     }
   };
 
@@ -128,11 +130,10 @@ export const MedicContextProvider = (props) => {
     }
 
   };
-
+  //this need to be implemented
   const handleRegister = () => { };
   return (<MedicContext.Provider
     value={{
-
       isMedicLogged: isMedicLogged,
       isRememberMeChecked: isRememberMeChecked,
       currentMedic: currentMedic,

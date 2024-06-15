@@ -26,18 +26,19 @@ export default function SearchModal({ action, patientId }) {
   };
 
   const handleByNewPatientSearch = async () => {
+    if (!newPatientId || newPatientId === '') {
+      return;
+    }
     if (newPatientId && newPatientId !== '') {
       try {
         const response = await handleSearchNewPatient(newPatientId);
-        setResponseMessage(response.response.data.message);
-        setNewPatientId('');
+        setResponseMessage(response.data.message);
       } catch (error) {
         setResponseMessage(error.message);
-        setNewPatientId('');
-
       }
     }
     setTimeout(() => {
+      setNewPatientId('');
       setSearchAnchor(null);
       handleShowResponseModal({ currentTarget: searchAnchor });
     }, 1000);

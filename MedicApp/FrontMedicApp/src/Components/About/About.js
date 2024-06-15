@@ -1,4 +1,6 @@
-import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import ScreenSearchDesktopIcon from '@mui/icons-material/ScreenSearchDesktop';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
@@ -6,31 +8,25 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-
 const items = [
   {
-    icon: <SettingsSuggestRoundedIcon />,
-    title: 'Titlu',
-    description:
-      'Text',
+    icon: <LocalHospitalIcon />,
+    title: "Handy for medics",
+    description: "This app provides essential tools and resources for medical professionals."
+
   },
   {
-    icon: <SettingsSuggestRoundedIcon />,
-    title: 'Titlu',
+    icon: <VisibilityIcon />,
+    title: 'Monitories patient metrics',
     description:
-      'Text',
+      "This platform allows healthcare providers to monitor patient metrics from any location."
   },
   {
-    icon: <SettingsSuggestRoundedIcon />,
-    title: 'Titlu',
+    icon: <ScreenSearchDesktopIcon />,
+    title: 'View inspect and analyze',
     description:
-      'Text',
+      "This tool enables to view, inspect, and analyze medical data with ease. Offering advanced visualization features, detailed inspection capabilities",
   },
-
-
-
-
-
 ];
 
 export default function About() {
@@ -60,10 +56,10 @@ export default function About() {
           }}
         >
           <Typography component="h2" variant="h4">
-            About
+            EOG
           </Typography>
           <Typography variant="body1" sx={{ color: 'grey.400' }}>
-            Message
+            System to monitoring patient metrics
           </Typography>
         </Box>
         <Grid container spacing={2.5}>

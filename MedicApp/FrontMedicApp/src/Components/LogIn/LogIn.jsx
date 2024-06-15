@@ -15,7 +15,7 @@ import * as React from 'react';
 import { MedicContext } from '../../Context/medicContext';
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function LogIn() {
   const medicContext = React.useContext(MedicContext);
 
 
@@ -59,7 +59,7 @@ export default function SignIn() {
             <LocalHospitalIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Log in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField

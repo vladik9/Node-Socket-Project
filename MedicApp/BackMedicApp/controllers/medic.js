@@ -98,7 +98,7 @@ router.get('/search/:id', authMiddleware, async (req, res) => {
 });
 
 router.get('/token', authMiddleware, async (req, res) => {
-  console.log(req.medic);
+
   const medicId = req.medic.medicId;
   try {
     const medic = await Medic.findOne({ medicId });

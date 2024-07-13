@@ -11,13 +11,21 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { MedicContext } from '../../Context/medicContext';
 const defaultTheme = createTheme();
 
 export default function LogIn() {
   const medicContext = React.useContext(MedicContext);
 
+  useEffect(() => {
+    const rememberMe = localStorage.getItem("rememberMe");
+    const token = localStorage.getItem("token");
+    if (token && rememberMe) {
+      medicContext.handleLoginToken();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();

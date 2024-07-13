@@ -116,7 +116,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="text"
                 size="small"
               >
-                {currentMedic.medic.name}
+                {currentMedic.medic?.name}
               </Button>
             </Box>
             <Box>
@@ -125,7 +125,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="outlined"
                 size="small"
               >
-                Medic id: {currentMedic.medic.medicId}
+                Medic id: {currentMedic.medic?.medicId}
               </Button>
             </Box>
             <Box

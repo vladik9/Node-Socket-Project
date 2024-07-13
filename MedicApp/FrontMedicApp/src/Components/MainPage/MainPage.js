@@ -30,9 +30,8 @@ export default function LandingPage() {
     if (token && rememberMe) {
       medicContext.handleIsMedicLogged();
     }
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
       <CssBaseline />

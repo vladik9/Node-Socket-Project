@@ -23,6 +23,7 @@ export const MedicContext = createContext({
   handleSearchNewPatient: (id) => { },
   handleSearchByNewPatientId: (id) => { },
   handleIsMedicLogged: () => { },
+  handleLoginToken: () => { },
   //this is not used just for admin to add new medics
   handleRegister: () => { }
 });
@@ -76,9 +77,6 @@ export const MedicContextProvider = (props) => {
     try {
       await logoutApi(token);
     } catch (error) { console.log(error); }
-    if (localStorage.getItem("rememberMe")) {
-      return;
-    }
     localStorage.removeItem("token");
     localStorage.removeItem("rememberMe");
 
@@ -130,6 +128,18 @@ export const MedicContextProvider = (props) => {
     }
 
   };
+  const handleLoginToken = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const medic = await handleIsMedicLoggedToken(token);
+      if (medic) {
+        setIsMedicLogged(true);
+        setCurrentMedic(medic.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //this need to be implemented
   const handleRegister = () => { };
   return (<MedicContext.Provider
@@ -150,6 +160,7 @@ export const MedicContextProvider = (props) => {
       setRequestNewData: setRequestNewData,
       //this is not used just for admin to add new medics
       handleRegister: handleRegister,
+      handleLoginToken: handleLoginToken
 
     }}>
     {props.children}

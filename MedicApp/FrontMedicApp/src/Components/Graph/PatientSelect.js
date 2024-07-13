@@ -14,7 +14,8 @@ export default function PatientSelect() {
 
   useEffect(() => {
     if (requestNewData) {
-      handleSearchByMedicId(currentMedic.medic.medicId);
+      currentMedic.medic?.medicId &&
+        handleSearchByMedicId(currentMedic.medic?.medicId);
       setRequestNewData(false);
     }
   }, [requestNewData]);
